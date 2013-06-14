@@ -16,13 +16,14 @@ bool isPalindrome(int Target) {
 }
 
 int main() {
-	for(int I = 999; I; --I) {
-		for(int J = 999; J; --J) {
-			if(isPalindrome(I*J)) {
-				printf("%i\n", I*J);
-				return 0;
+	int Max = 0;
+	for(int I = 999; I > 99; --I) {
+		for(int J = 999; J > 99; --J) {
+			if(isPalindrome(I*J) && (I*J > Max)) {
+				Max = I*J;
 			}
 		}
 	}
+	printf("%i\n", Max);
 	return 0;
 }
