@@ -4,7 +4,7 @@
 .sconsign.dblite
 .*
 !.gitignore
-*/build/*
+*/build/linux/out
 *#
 #*
 *~
