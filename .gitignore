@@ -1,0 +1,11 @@
+*.o
+*.d
+*.swp
+.sconsign.dblite
+.*
+!.gitignore
+*/build/*
+*#
+#*
+*~
+*.stamp
