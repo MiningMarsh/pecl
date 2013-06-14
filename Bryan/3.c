@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include <sys/time.h>
 struct timeval start;
 struct timeval end;
@@ -34,5 +35,5 @@ int main()
 	printf("%llu\n",max);
 	gettimeofday(&end,NULL);
 	long long elapsed = -1000000 * start.tv_sec - start.tv_usec + 1000000*end.tv_sec + end.tv_usec;
-	printf("%lld\n",elapsed);
+	printf("Microseconds elapsed: %lld\n",elapsed);
 }
