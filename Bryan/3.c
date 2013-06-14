@@ -7,17 +7,18 @@ int main()
 {
 	long long unsigned int num = 600851475143;
 	long long unsigned int i = 1;
-	long long unsigned int upb;
+	long long unsigned int upb= sqrt(num);
 	long long unsigned int nums[10000];
 	short index = 0;
 	gettimeofday(&start,NULL);
 	for(;;)
 	{
-		upb = sqrt(num);
 		if(!(num % i))
 		{
+			upb = sqrt(num);
 			nums[index++]=i;
 			num /= i;
+			i=1;
 		}
 		if (i > upb)
 		{
