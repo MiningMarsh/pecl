@@ -8,4 +8,5 @@ int main() {
 		if((!(Current%3))||(!(Current%5)))
 			Total+=Current;
 	printf("%u\n", Total);
+	return 0;
 }

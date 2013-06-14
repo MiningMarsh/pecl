@@ -14,4 +14,5 @@ int main() {
 			Total += Current;
 	}
 	printf("%u\n", Total);
+	return 0;
 }
