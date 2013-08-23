@@ -8,5 +8,5 @@ Find the largest palindrome made from the product of two 3-digit numbers.
   (let ((str (format nil "~a" x)))
 	(string= str (reverse str))))
 (defun crawler ()
-  (flatten (mapcar (lambda (x) (mapcar (lambda (y) (* x y)) (range 999 99 -1))) (range 999 99 -1))))
+  (flatten (mapcar (lambda (x) (mapcar (lambda (y) (* x y)) (range 999 (1- x) -1))) (range 999 99 -1))))
 (princ (car (sort (remove-if-not #'palindrome-number (crawler)) #'>)))
