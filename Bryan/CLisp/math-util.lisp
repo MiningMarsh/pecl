@@ -1,0 +1,15 @@
+(load "util.lisp")
+(defun fib-list (x &optional (acc (list 1 0)))
+  (cond ((= x 0) '())
+        ((= x 1)  (nreverse (cdr acc)))
+        (t (fib-list (- x 1) (cons (+ (car acc) (cadr acc)) acc)))))
+(defun divisible (n x)
+  (zerop (rem n x)))
+(defun prime-factors (x)
+  (labels ((rec (x upb i acc)
+			 (cond
+			   ((> i upb)	 (nreverse (cons x acc)))
+			   ((divisible x i) (rec (/ x i) (sqrt x) i (cons i acc)))
+			   (t (rec x upb (1+ i) acc)))))
+	(rec x (sqrt x) 2 nil)))
+				 
