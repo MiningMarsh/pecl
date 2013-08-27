@@ -20,7 +20,7 @@
 (defmacro -> (expr &rest xs)
   (if (null xs)
 	  expr
-	  `(-> (,(first (first xs)) ,expr) ,@(rest xs))))
+	  `(-> (,(first xs) ,expr) ,@(rest xs))))
 
 (defmacro => (expr &rest xs)
   (if (null xs)
@@ -148,6 +148,13 @@
 	  (if (funcall fn (car xs))
 		  (car xs)
 		  (anyp fn (cdr xs)))))
+
+(defun allp (fn xs)
+  (if (null xs)
+	  t
+	  (if (funcall fn (car xs))
+		  (allp fn (cdr xs))
+		  nil)))
 
  (defun string-reduce (fn st &optional (start ""))
    (labels ((rec (st start)
