@@ -22,6 +22,13 @@
 	  expr
 	  `(-> (,(first (first xs)) ,expr) ,@(rest xs))))
 
+(defmacro => (expr &rest xs)
+  (if (null xs)
+	  expr
+	  (with-gensyms (val)
+		`(let ((,val (,(car xs) ,expr)))
+		   (if ,val
+			   (=> ,val ,@(cdr xs)))))))
 
 (defun cycle-list (xs n)
   (let ((acc nil))
@@ -141,6 +148,7 @@
 	  (if (funcall fn (car xs))
 		  (car xs)
 		  (anyp fn (cdr xs)))))
+
  (defun string-reduce (fn st &optional (start ""))
    (labels ((rec (st start)
 			  (if (string= "" st)
