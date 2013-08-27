@@ -1,4 +1,2 @@
-#!/usr/bin/sbcl --script
-(load "util.lisp")
-(load "math-util.lisp")
+(load (compile-file "math-util.lisp"))
 (princ (prime-factors 600851475143))

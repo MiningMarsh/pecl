@@ -1,4 +1,4 @@
-(load "util.lisp")
+(load (compile-file "util.lisp"))
 (defun fib-list (x &optional (acc (list 1 0)))
   (cond ((= x 0) '())
         ((= x 1)  (nreverse (cdr acc)))
@@ -12,4 +12,24 @@
 			   ((divisible x i) (rec (/ x i) (sqrt x) i (cons i acc)))
 			   (t (rec x upb (1+ i) acc)))))
 	(rec x (sqrt x) 2 nil)))
-				 
+
+(defun n-primes (n)
+  (labels ((rec (p cnt acc)
+			 (if (= cnt n)
+				 (nreverse acc)
+				   (if (anyp (lambda (x) (divisible p x)) acc)
+					   (rec (+ p 2) cnt acc)
+					   (rec (+ p 2) (1+ cnt) (cons p acc))))))
+	(rec 3 1 (list 2))))
+
+(defun square (n)
+  (* n n))
+
+(defun perfect-squarep (n)
+  (= (square (isqrt n)) n))
+
+(defun hypot (a b)
+  (sqrt (+ (square a) (square b))))
+
+(defun ihypot (a b)
+  (isqrt (+ (square a) (square b))))

@@ -3,25 +3,6 @@
 	   ((not ,test))
 	 ,@body))
 
-
-(defmacro my-let (binds &body body)
-  (labels ((seperator (xs pacc vacc)
-			 (if (null xs)
-				 (list pacc vacc)
-				 (seperator (cdr xs)
-							(cons (caar xs) pacc)
-							(cons (cadar xs) vacc)))))
-	(apply #'(lambda (plist vlist)
-			   `((lambda ,plist ,@body) ,@vlist)) (seperator binds '() '()))))
-
-(defmacro my-cond (&rest expr)
-  (if (null expr)
-	  nil
-	  `(if ,(caar expr)
-		   ,(cadar expr)
-		   (my-cond ,@(cdr expr)))))
-
-
 (defmacro with-gensyms (syms &body body)
   `(let ,(mapcar #'(lambda (x) `(,x (gensym))) syms)
 	 ,@body))
@@ -160,3 +141,9 @@
 	  (if (funcall fn (car xs))
 		  (car xs)
 		  (anyp fn (cdr xs)))))
+ (defun string-reduce (fn st &optional (start ""))
+   (labels ((rec (st start)
+			  (if (string= "" st)
+				  start
+				  (rec (subseq st 1) (funcall fn start (subseq st 0 1))))))
+	 (rec st start)))

@@ -1,2 +1,1 @@
-#!/usr/bin/sbcl --script
-(load "math-util.lisp")
+(load (compile-file "math-util.lisp"))
