@@ -1,2 +1,4 @@
 (load (compile-file "math-util.lisp"))
-(princ (prime-factors 600851475143))
+(defun main ()
+(format t "~a~%" (prime-factors 600851475143))
+)

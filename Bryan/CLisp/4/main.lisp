@@ -16,4 +16,6 @@ Find the largest palindrome made from the product of two 3-digit numbers.
          ((<= j upb) (rec (1- i) max-num upb mp))
          (t (rec i (1- j) upb mp))))))
     (rec max-num max-num 1 1)))
-(princ (crawler 999))
+(defun main ()
+(format t "~a~%" (crawler 999))
+)

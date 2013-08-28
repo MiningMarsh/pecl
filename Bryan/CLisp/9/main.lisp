@@ -28,9 +28,10 @@ Find the product abc.
 				  (rec a (1+ b))))))
 	  (rec 1 1)))
  
-(princ (crawler))
-(princ "
-")
+(defun main ()
+(format t "~a~%" (crawler))
+)
+
 	  
 	  
 	  
