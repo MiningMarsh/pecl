@@ -4,6 +4,19 @@
         ((= x 1)  (nreverse (cdr acc)))
         (t (fib-list (- x 1) (cons (+ (car acc) (cadr acc)) acc)))))
 
+(defun primep (n)
+  (labels ((rec (n c upb)
+			 (if (> c upb)
+				 t
+				 (if (divisible n c)
+					 nil
+					 (rec n (+ c 2) upb)))))
+	(cond
+	  ((= n 2) t)
+	  ((divisible n 2) nil)
+	  ((< n 2) nil)
+	  (t (rec n 3 (isqrt n))))))		
+
 (declaim (inline divisible))
 (defun divisible (n x)
   (declare (integer n) (integer x))
@@ -19,7 +32,9 @@
 
 (defun pi-1 (n)
   (declare (fixnum n))
-  (round (exp (- (w-1 (/ -1.0d0 n))))))
+  (let ((x (round (exp (- (w-1 (/ -1.0d0 n)))))))
+	(declare (fixnum x))
+	x))
 
 (defun n-primes (n)
   (declare (fixnum n) (optimize (speed 3)))
@@ -104,7 +119,7 @@
 			   (declare (fixnum p) (list xs) (list acc))
 			   (if (> p  upb)
 				   (nconc (nreverse acc) xs)
-				   (let ((nl (remove-if (lambda (x) (divisible x p)) xs)))
+				   (let ((nl (delete-if (lambda (x) (divisible x p)) xs)))
 					 (declare (list nl))
 					 (rec (car nl) nl (cons p acc))))))
 	  (rec 2 (range 2 (1+ n)) nil))))

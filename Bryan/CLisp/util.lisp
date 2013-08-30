@@ -162,3 +162,7 @@
 				  start
 				  (rec (subseq st 1) (funcall fn start (subseq st 0 1))))))
 	 (rec st start)))
+
+(defun n-mth (n m mat)
+  (nth n
+   (nth m mat)))

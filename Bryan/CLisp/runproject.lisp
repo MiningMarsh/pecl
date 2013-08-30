@@ -1,4 +1,4 @@
-#!/usr/bin/sbcl --noprint --script
+#!/usr/bin/sbcl --dynamic-space-size 7000 --noprint --script
 (load "util.lisp")
 (format t "Enter an integer: ")
 (finish-output)
