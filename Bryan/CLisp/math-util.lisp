@@ -142,3 +142,9 @@
 				 (rec (1+ x) (cons (+ x (car acc)) acc)))))
 	(rec 2 (list 1))))
 				 
+(defun collatz (start)
+  (collect-list (= start 1)
+        (if (evenp start)
+            (/ start 2)
+            (+ 1 (* 3 start)))
+        start))
