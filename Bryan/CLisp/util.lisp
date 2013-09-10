@@ -89,6 +89,9 @@
 			   (t (rec (cdr lst) acc winner)))))
 	(rec lst '() (funcall fn (car lst)))))
 
+(defmacro var-bind (params values &body body)
+  `(apply (lambda ,params ,@body) ,values))
+
 (defun rmapcar (fn xss)
   (mapcar #'(lambda (xs)
 			  (if (atom xs)
@@ -166,3 +169,11 @@
 (defun n-mth (n m mat)
   (nth n
    (nth m mat)))
+
+(defun array-nmth (arr n m)
+  (var-bind (mn mm) (array-dimensions arr)
+	(if (or
+		 (>= n mn) (< n 0)
+		 (>= m mm) (< m 0))
+		(values nil nil)
+		(values (aref arr n m) t))))

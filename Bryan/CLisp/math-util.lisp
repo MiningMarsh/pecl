@@ -30,6 +30,16 @@
 			   (t (rec x upb (1+ i) acc)))))
 	(rec x (sqrt x) 2 nil)))
 
+(defun factors (x)
+  (let ((upb (isqrt x)))
+	(labels ((rec (n acc)
+			   (if (>= n upb)
+				   acc
+				   (if (divisible x n)
+					   (rec (1+ n) (cons n (cons (/ x n) acc)))
+					   (rec (1+ n) acc)))))
+	  (rec 1 nil))))
+
 (defun pi-1 (n)
   (declare (fixnum n))
   (let ((x (round (exp (- (w-1 (/ -1.0d0 n)))))))
@@ -60,7 +70,7 @@
 (defun W-1 (z)
   "SEE 'Numerical evaluation of the lamber w function and application
  to generation of generalized gaussian noise with exponent 1/2'"
- (declare (double-float z))
+  (declare (double-float z))
   (cond
 	((and (< z -0.333) (>= z (/ -1 (exp 1))))
 	 (let ((p (- (sqrt (* 2 (1+ (* (exp 1) z)))))))
@@ -125,3 +135,10 @@
 	  (rec 2 (range 2 (1+ n)) nil))))
 
 
+(defun triangle-numbers (n)
+  (labels ((rec (x acc)
+			 (if (>= x (1+ n))
+				 (nreverse acc)
+				 (rec (1+ x) (cons (+ x (car acc)) acc)))))
+	(rec 2 (list 1))))
+				 
