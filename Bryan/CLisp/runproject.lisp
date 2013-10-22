@@ -1,4 +1,3 @@
-#!/usr/bin/sbcl --dynamic-space-size 7000 --noprint --script
 (load (compile-file "util.lisp" :verbose nil :print nil))
 (load (compile-file "math-util.lisp" :verbose nil :print nil))
 (format t "~%")

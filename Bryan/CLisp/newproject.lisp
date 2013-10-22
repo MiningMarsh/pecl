@@ -1,5 +1,4 @@
-#!/usr/bin/sbcl --script
-(load "util.lisp")
+(load (compile-file "util.lisp" :print nil :verbose :nil))
 (format t "Enter an integer: ")
 (finish-output)
 (defvar *input* (read))
