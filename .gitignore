@@ -10,3 +10,4 @@ out
 *~
 *.stamp
 */build/*
+*.fasl
