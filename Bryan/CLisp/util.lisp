@@ -159,16 +159,16 @@
 		  (allp fn (cdr xs))
 		  nil)))
 
- (defun string-reduce (fn st &optional (start ""))
-   (labels ((rec (st start)
-			  (if (string= "" st)
-				  start
-				  (rec (subseq st 1) (funcall fn start (subseq st 0 1))))))
-	 (rec st start)))
+(defun string-reduce (fn st &optional (start ""))
+  (labels ((rec (st start)
+			 (if (string= "" st)
+				 start
+				 (rec (subseq st 1) (funcall fn start (subseq st 0 1))))))
+	(rec st start)))
 
 (defun n-mth (n m mat)
   (nth n
-   (nth m mat)))
+	   (nth m mat)))
 
 (defun array-nmth (arr n m)
   (var-bind (mn mm) (array-dimensions arr)
@@ -177,3 +177,9 @@
 		 (>= m mm) (< m 0))
 		(values nil nil)
 		(values (aref arr n m) t))))
+
+(declaim #+sbcl(sb-ext:muffle-conditions style-warning))
+(defun get-nanoseconds-of-day ()
+  (multiple-value-bind (_ seconds nanoseconds __ ___) (sb-unix:unix-gettimeofday)
+	(+ (* seconds (expt 10 9)) nanoseconds)))
+(declaim #+sbcl(sb-ext:unmuffle-conditions style-warning))

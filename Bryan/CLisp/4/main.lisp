@@ -1,8 +1,8 @@
 (if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
-"
+(setq *project-description* "
 A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
 Find the largest palindrome made from the product of two 3-digit numbers.
-"
+")
 (defun palindrome-number (x)
   (let ((str (write-to-string x)))
 	(string= str (reverse str))))

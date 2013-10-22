@@ -1,5 +1,5 @@
 (if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
-"
+(setq *project-description* "
 Find the greatest product of five consecutive digits in the 1000-digit number.
 
 73167176531330624919225119674426574742355349194934
@@ -22,7 +22,7 @@ Find the greatest product of five consecutive digits in the 1000-digit number.
 84580156166097919133875499200524063689912560717606
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450
-"
+")
 (defun prod-chrs (st)
   (string-reduce (lambda (acc s) (* acc (parse-integer s))) st 1))
 
