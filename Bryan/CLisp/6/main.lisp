@@ -1,4 +1,4 @@
-(load (compile-file "math-util.lisp"))
+(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
 "
 The sum of the squares of the first ten natural numbers is,
 1² + 2² + ... + 10² = 385

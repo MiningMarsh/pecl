@@ -1,4 +1,4 @@
-(load (compile-file "util.lisp" :verbose nil))
+(load (compile-file "util.lisp" :verbose nil :print nil))
 (defun fib-list (x &optional (acc (list 1 0)))
   (cond ((= x 0) '())
         ((= x 1)  (nreverse (cdr acc)))

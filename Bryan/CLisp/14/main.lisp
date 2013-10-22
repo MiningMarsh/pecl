@@ -1,4 +1,4 @@
-(load (compile-file "math-util.lisp"))
+(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
 (setq *project-description* "The following iterative sequence is defined for 
 the set of positive integers:
 

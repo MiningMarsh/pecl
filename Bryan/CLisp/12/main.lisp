@@ -1,4 +1,4 @@
-(load (compile-file "math-util.lisp"))
+(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
 (setq *project-description* "The sequence of triangle numbers is generated
 by adding the natural numbers. So the 7th triangle number would be 
 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28. 

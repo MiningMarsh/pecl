@@ -1,4 +1,4 @@
-(load (compile-file "math-util.lisp"))
+(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
 (defun multiple-3-or-5 (x)
   (or (zerop (rem x 3)) (zerop (rem x 5))))
 (defun main()

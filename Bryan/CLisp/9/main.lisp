@@ -1,4 +1,4 @@
-(load (compile-file "math-util.lisp"))
+(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
 "
 A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
 a² + b² = c²

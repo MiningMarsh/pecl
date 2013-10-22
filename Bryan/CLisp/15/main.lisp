@@ -1,4 +1,4 @@
-(load (compile-file "math-util.lisp"))
+(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
 (setq *project-description* "Starting in the top left corner of a 2×2 grid, 
 and only being able to move to the right and down, there are exactly 
 6 routes to the bottom right corner.
@@ -17,7 +17,7 @@ How many such routes are there through a 20×20 grid?
 
 (defun crawler (n)
   (labels ((rec (m lst)
-			 (if (= m 1)
+			 (if (<= m 1)
 				 lst
 				 (rec (1- m) (next-list lst)))))
 	(rec n '(2))))
