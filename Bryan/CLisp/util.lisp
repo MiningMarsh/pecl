@@ -18,9 +18,13 @@
 	   (nreverse (cons ,var ,acc)))))
 
 (defmacro -> (expr &rest xs)
-  (if (null xs)
-	  expr
-	  `(-> (,(first xs) ,expr) ,@(rest xs))))
+  (cond 
+	((null xs)
+	 expr)
+	((listp (first xs))
+	  `(-> (,(first (first xs)) ,@(cdr (first xs)) ,expr) ,@(rest xs)))
+	(t
+	   `(-> (,(first xs) ,expr) ,@(rest xs)))))
 
 (defmacro => (expr &rest xs)
   (if (null xs)
@@ -46,7 +50,8 @@
 			 nil))))
 
 (defmacro do-tuples/c (params source &body body)
-  `(do-tuples/o ,params (cycle-list ,source (1- (length ',params))) ,@body))
+  `(do-tuples/o ,params (cycle-list
+						 ,source (1- (length ',params))) ,@body))
 
 (defmacro with-gensym-list (name length &body body)
   (with-gensyms (rec n acc)  
@@ -163,12 +168,17 @@
   (labels ((rec (st start)
 			 (if (string= "" st)
 				 start
-				 (rec (subseq st 1) (funcall fn start (subseq st 0 1))))))
+				 (rec (subseq st 1)
+					  (funcall fn start (subseq st 0 1))))))
 	(rec st start)))
 
 (defun n-mth (n m mat)
   (nth n
 	   (nth m mat)))
+
+(defun ns-lookup (hostname)
+  (sb-bsd-sockets:host-ent-address
+   (sb-bsd-sockets:get-host-by-name hostname)))
 
 (defun array-nmth (arr n m)
   (var-bind (mn mm) (array-dimensions arr)
@@ -177,9 +187,107 @@
 		 (>= m mm) (< m 0))
 		(values nil nil)
 		(values (aref arr n m) t))))
+(defun tcp-connect (hostname port)
+  (let ((socket (make-instance 'sb-bsd-sockets:inet-socket
+							   :type :stream
+							   :protocol :tcp)))
+	(sb-bsd-sockets:socket-connect socket (ns-lookup hostname) port)
+	socket))
 
 (declaim #+sbcl(sb-ext:muffle-conditions style-warning))
 (defun get-nanoseconds-of-day ()
   (multiple-value-bind (_ seconds nanoseconds __ ___) (sb-unix:unix-gettimeofday)
 	(+ (* seconds (expt 10 9)) nanoseconds)))
 (declaim #+sbcl(sb-ext:unmuffle-conditions style-warning))
+
+(defun tcp-server (port &key (backlog 5) (interface "localhost"))
+  (let ((server  (make-instance
+				  'sb-bsd-sockets:inet-socket :type :stream  
+				  :protocol :tcp)))
+	(sb-bsd-sockets:socket-bind server (ns-lookup interface) port)
+	(sb-bsd-sockets:socket-listen server backlog)
+	(setf (sb-bsd-sockets:sockopt-reuse-address server) t)
+	server))
+
+(defun repeat (x n)
+  (loop for i from 1 to n collect x))
+
+(defun string-multiply (str n)
+  (apply #'concatenate `(string ,@(repeat str n))))
+(defmacro with-open-server (server port &body body)
+  `(let ((,server (tcp-server ,port)))
+	 (unwind-protect
+		  (progn
+			,@body)
+	   (tcp-close ,server))))
+
+(defun socket-fd (socket)
+  (etypecase socket
+    (fixnum socket)
+    (sb-bsd-sockets:socket (sb-bsd-sockets:socket-file-descriptor socket))
+    (file-stream (sb-sys:fd-stream-fd socket))))
+
+(defmacro with-threaded-client (server client &body body)
+  `(let ((,client (sb-bsd-sockets:socket-accept ,server)))
+	 (sb-thread:make-thread (lambda ()
+							  (unwind-protect
+								   (progn
+									 ,@body)
+								(tcp-close ,client))))))
+
+
+(defun tcp-read (socket num &optional (buffer nil))
+  (sb-bsd-sockets:socket-receive socket buffer num))
+
+
+(defun newline (&optional (str ""))
+  (format nil "~a~%" str))
+
+(defun tcp-close (socket)
+  (sb-sys:invalidate-descriptor (socket-fd socket))
+  (sb-bsd-sockets:socket-close socket))
+
+
+
+(defun tcp-send (socket msg)
+  (sb-bsd-sockets:socket-send socket msg (length msg)))
+
+(defun tcp-readline (socket)
+  (labels ((rec (str)
+			 (let ((chr (tcp-read socket 1)))
+			   (if (string= chr (newline))
+				   (nreverse (concatenate 'string chr str))
+				   (rec (concatenate 'string chr str))))))
+	(rec "")))
+
+(defmacro with-open-socket (socket hostname port &body body)
+  `(let ((,socket (tcp-connect ,hostname ,port)))
+	 (unwind-protect
+		  (progn
+			,@body
+			)
+	   (tcp-close ,socket))))
+
+
+
+(defun split-string (string key)
+  (loop for i = 0 then (1+ j)
+	 as j = (position key string :start i)
+	 collect (subseq string i j)
+	 while j))
+
+(defun strip-chars (str chars)
+  (remove-if (lambda (ch) (find ch chars)) str))
+
+(defun get-headers (socket)
+  (labels ((rec (str)
+			 (let ((line (tcp-readline socket)))
+			   (if (string= line (newline ""))
+				   str
+				   (rec (cons
+						 (strip-chars
+						  line
+						  (newline "")) str))))))
+	(rec nil)))
+
+(-> 1 (+ 1))
