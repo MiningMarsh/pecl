@@ -1,3 +1,4 @@
+(require 'sb-bsd-sockets)
 (defmacro while (test &body body)
   `(do ()
 	   ((not ,test))
@@ -290,4 +291,26 @@
 						  (newline "")) str))))))
 	(rec nil)))
 
-(-> 1 (+ 1))
+
+(defstruct queue first last)
+
+(defgeneric enqueue (q x))
+
+(defmethod enqueue ((q queue) x)
+  (if (not (queue-first q))
+	  (progn
+		(setf (queue-first q) (list x) (queue-last q) (queue-first q))
+		q)
+	  (progn
+		(nconc (queue-last q) (list x))
+		(setf (queue-last q) (cdr (queue-last q)))
+		q)))
+
+(defgeneric dequeue (q))
+
+(defmethod dequeue ((q queue))
+  (if (queue-first q)
+	  (values (pop (queue-first q)) q)
+	  (values nil q)))
+
+
