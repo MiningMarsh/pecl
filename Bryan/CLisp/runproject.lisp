@@ -39,7 +39,7 @@
 				(format t "~a~%~%~a~%" *result* =sep)
 				(format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
 				(format t "~a~%" =sep)))
-		  (file-error (e) (format t "~a~a"
+		  (file-error (e) (format t "~a"
 							 "That project doesn't exist.")))
 		(format t "~%Would you like to repeat? [y/n] ")
 		(setf *input-command* (get-valid-input-from-list
