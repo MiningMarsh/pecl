@@ -24,27 +24,33 @@
   (setf *input* (read))
   (if (integerp *input*)
 	  (progn
-		(ensure-directories-exist (relative-path (format nil "~a" *input*)))
-		(load (compile-file (concatenate 'string (format nil "~a" *input*) "/" "main.lisp")
-							:verbose nil
-							:print nil))))
-  (let ((-sep (string-multiply "-" 32)) (=sep (string-multiply "=" 32)))
-	(format t "~%~%~a~%PROJECT DESCRIPTION~%~a~%~a~%" -sep -sep  *project-description*)
-	(format t "~a~%RUNNING PROGRAM~%~a~%~%" -sep -sep)
-	(setf *start-time* (get-nanoseconds-of-day))
-	(setf *result* (main))
-	(setf *end-time* (get-nanoseconds-of-day))
-	(format t "~a~%~%~a~%" *result* =sep)
-	(format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
-	(format t "~a~%" =sep)
-	(format t "~%Would you like to repeat? [y/n] ")
-	(setf *input-command* 'herr)
-	(while  (not (assoc *input-command* *inputs*))
-	  (finish-output)
-	  (setf *input-command* (read))
-	  (if (not (assoc *input-command* *inputs*))
-		  (format t "~%Please enter yes or no ")))
-	(format t "~%~%~%")))
+	    (handler-case
+			(progn
+			  (load (compile-file (concatenate 'string (format nil "~a" *input*) "/" "main.lisp")
+								  :verbose nil
+								  :print nil))
+			  (let ((-sep (string-multiply "-" 32)) (=sep (string-multiply "=" 32)))
+				(format t "~%~%~a~%PROJECT DESCRIPTION~%~a~%~a~%" -sep -sep  *project-description*)
+				(format t "~a~%RUNNING PROGRAM~%~a~%~%" -sep -sep)
+				(setf *start-time* (get-nanoseconds-of-day))
+				(setf *result* (main))
+				(setf *end-time* (get-nanoseconds-of-day))
+				(format t "~a~%~%~a~%" *result* =sep)
+				(format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
+				(format t "~a~%" =sep)))
+		  (error (e) (format t "~a~a"
+							 "That project doesn't exist or something went wrong,"
+							 " if it does exist, try debugging your solution.")))
+		(format t "~%Would you like to repeat? [y/n] ")
+		(setf *input-command* 'herr)
+		(while  (not (assoc *input-command* *inputs*))
+		  (finish-output)
+		  (setf *input-command* (read))
+		  (if (not (assoc *input-command* *inputs*))
+			  (format t "~%Please enter yes or no ")))
+		(format t "~%~%~%"))))
 (quit)
+
+
 
 
