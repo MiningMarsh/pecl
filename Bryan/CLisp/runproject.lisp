@@ -18,7 +18,6 @@
 			'(no nil)))
 (defun main () 1)
 
-
 (while (cadr (assoc *input-command* *inputs*))
   (setf *project-description* "")
   (format t "Enter an integer: ")
@@ -40,9 +39,8 @@
 				(format t "~a~%~%~a~%" *result* =sep)
 				(format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
 				(format t "~a~%" =sep)))
-		  (error (e) (format t "~a~a"
-							 "That project doesn't exist or something went wrong,"
-							 " if it does exist, try debugging your solution.")))
+		  (file-error (e) (format t "~a~a"
+							 "That project doesn't exist.")))
 		(format t "~%Would you like to repeat? [y/n] ")
 		(setf *input-command* (get-valid-input-from-list
 							   *inputs*
