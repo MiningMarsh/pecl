@@ -10,7 +10,7 @@
 (defvar *start-time*)
 (defvar *end-time*)
 (defvar *result*)
-(setf *input-command* 'yes)  
+(setf *input-command* 'yes)
 (setf *inputs*
 	  (list '(yes t)
 			'(y t)
@@ -39,7 +39,7 @@
 	(format t "~a~%" =sep)
 	(format t "~%Would you like to repeat? [y/n] ")
 	(setf *input-command* 'herr)
-	(while  (not (assoc *input-command* *inputs*))  
+	(while  (not (assoc *input-command* *inputs*))
 	  (finish-output)
 	  (setf *input-command* (read))
 	  (if (not (assoc *input-command* *inputs*))
