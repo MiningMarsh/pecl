@@ -291,7 +291,6 @@
 						  (newline "")) str))))))
 	(rec nil)))
 
-
 (defstruct queue first last)
 
 (defgeneric enqueue (q x))
@@ -313,4 +312,15 @@
 	  (values (pop (queue-first q)) q)
 	  (values nil q)))
 
+(defun get-valid-input (chk-function repeat-message &optional (default-selection nil))
+  (let ((selection default-selection))
+	(while (not (funcall chk-function selection))
+	  (finish-output)
+	  (setf selection (read))
+	  (if (not (funcall chk-function selection))
+		  (format t "~%~a: " repeat-message)))
+	selection))
 
+(defun get-valid-input-from-list (inputs repeat-message &optional (default-selection nil))
+  (get-valid-input
+   (lambda (sel) (assoc sel inputs)) repeat-message default-selection))

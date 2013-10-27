@@ -17,6 +17,8 @@
 			'(n nil)
 			'(no nil)))
 (defun main () 1)
+
+
 (while (cadr (assoc *input-command* *inputs*))
   (setf *project-description* "")
   (format t "Enter an integer: ")
@@ -24,7 +26,7 @@
   (setf *input* (read))
   (if (integerp *input*)
 	  (progn
-	    (handler-case
+		(handler-case
 			(progn
 			  (load (compile-file (concatenate 'string (format nil "~a" *input*) "/" "main.lisp")
 								  :verbose nil
@@ -42,12 +44,9 @@
 							 "That project doesn't exist or something went wrong,"
 							 " if it does exist, try debugging your solution.")))
 		(format t "~%Would you like to repeat? [y/n] ")
-		(setf *input-command* 'herr)
-		(while  (not (assoc *input-command* *inputs*))
-		  (finish-output)
-		  (setf *input-command* (read))
-		  (if (not (assoc *input-command* *inputs*))
-			  (format t "~%Please enter yes or no ")))
+		(setf *input-command* (get-valid-input-from-list
+							   *inputs*
+							   "Please select yes or no"))
 		(format t "~%~%~%"))))
 (quit)
 
