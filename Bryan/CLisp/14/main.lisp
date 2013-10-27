@@ -1,4 +1,5 @@
-(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
+(if (not (boundp *running-from-runner*))
+	(load (compile-file "math-util.lisp")))
 (setq *project-description* "The following iterative sequence is defined for 
 the set of positive integers:
 
@@ -16,7 +17,7 @@ Which starting number, under one million, produces the longest chain?
 
 NOTE: Once the chain starts the terms are allowed to go above one million.")
 (defun main ()
-  (format t "~a~%" (cadar (crawler 1000000))))
+  (cadar (crawler 1000000)))
 (defun crawler (n)
   (mostn
    (lambda (x) (car x))

@@ -1,4 +1,5 @@
-(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
+(if (not (boundp *running-from-runner*))
+	(load (compile-file "math-util.lisp")))
 (setq *project-description* "The sequence of triangle numbers is generated
 by adding the natural numbers. So the 7th triangle number would be 
 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28. 
@@ -22,7 +23,7 @@ We can see that 28 is the first triangle number to have over five divisors.
 What is the value of the first triangle number to have over five hundred 
 divisors?")
 (defun main ()
-  (format t "~a~%" (crawler 500)))
+  (crawler 500))
 
 (defun crawler (bigger)
   (labels ((rec (m n)

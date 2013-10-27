@@ -1,7 +1,7 @@
-(if (not (boundp *running-from-runner*))(load (compile-file "math-util.lisp")))
+(if (not (boundp *running-from-runner*))
+	(load (compile-file "math-util.lisp")))
 (defun main ()
-(princ
-"
+  "
 2520 is the smallest number that can be divided by each of the numbers from 1 to 
 10 without any remainder.
 What is the smallest positive number that is evenly divisible by all of the 
@@ -26,4 +26,3 @@ EX  for 1-8:
 
 For 1-20:  232792560
 ")
-)
