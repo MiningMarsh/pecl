@@ -1,7 +1,8 @@
 (load (compile-file "util.lisp" :print nil :verbose :nil))
 (format t "Enter an integer: ")
 (finish-output)
-(defvar *input* (read))
+(defvar *input*)
+(setf *input* (read))
 (if (integerp *input*)
 	(progn
 	  (ensure-directories-exist (relative-path (format nil "~a" *input*)))
