@@ -23,9 +23,9 @@
 	((null xs)
 	 expr)
 	((listp (first xs))
-	  `(-> (,(first (first xs)) ,@(cdr (first xs)) ,expr) ,@(rest xs)))
+	 `(-> (,(first (first xs)) ,@(cdr (first xs)) ,expr) ,@(rest xs)))
 	(t
-	   `(-> (,(first xs) ,expr) ,@(rest xs)))))
+	 `(-> (,(first xs) ,expr) ,@(rest xs)))))
 
 (defmacro => (expr &rest xs)
   (if (null xs)
@@ -324,3 +324,23 @@
 (defun get-valid-input-from-list (inputs repeat-message &optional (default-selection nil))
   (get-valid-input
    (lambda (sel) (assoc sel inputs)) repeat-message default-selection))
+
+(defun string-join (xs str)
+  (apply #'concatenate
+		 (cons 'string (butlast (flatten (zip
+										  xs
+										  (repeat str (length xs))))))))
+
+(defun section-encode (xs &optional (equality #'equal))
+  (labels
+	  ((rec (index runlength p xs acc)
+		 (if (null xs)
+			 (nreverse (cons (list p index (+ -1 index runlength)) acc))
+			 (let ((x (car xs)))
+			   (if (funcall equality p x)
+				   (rec index (1+ runlength) p (cdr xs) acc)
+				   (rec (+ index runlength) 1 x (cdr xs) (cons
+														  (list p index (+ -1 index runlength))
+														  acc)))))))
+	(rec 0 1 (car xs) (cdr xs) nil)))
+

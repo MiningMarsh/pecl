@@ -10,17 +10,38 @@
 (defvar *start-time*)
 (defvar *end-time*)
 (defvar *result*)
+
+(defun pretty-problem-join (xs)
+  (let ((probs (remove-if-not #'car (section-encode xs))))
+	(string-join (mapcar
+				  (lambda (section)
+					(var-bind (sind eind) (cdr section)
+					  (if (zerop (- eind sind))
+						  (format nil "~a" sind)
+						  (format nil "~a-~a" sind eind))))
+				  probs)
+				 ",")))
+(defun get-valid-problems ()
+  (map0-n
+   (lambda (n) (handler-case
+				   (with-open-file (f (format nil "~a/main.lisp" n))
+					 t)
+				 (file-error (e) nil))) 1000))
+
 (setf *input-command* 'yes)
 (setf *inputs*
 	  (list '(yes t)
 			'(y t)
 			'(n nil)
 			'(no nil)))
+
 (defun main () 1)
 
+(defvar *valid-string* (pretty-problem-join (get-valid-problems)))
+(format t "Welcome to the project euler project manager!~%")
 (while (cadr (assoc *input-command* *inputs*))
   (setf *project-description* "")
-  (format t "Enter an integer: ")
+  (format t "Valid selections: ~a: " *valid-string*)
   (finish-output)
   (setf *input* (read))
   (if (integerp *input*)
@@ -40,14 +61,10 @@
 				(format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
 				(format t "~a~%" =sep)))
 		  (file-error (e) (format t "~a"
-							 "That project doesn't exist.")))
+								  "That project doesn't exist.")))
 		(format t "~%Would you like to repeat? [y/n] ")
 		(setf *input-command* (get-valid-input-from-list
 							   *inputs*
 							   "Please select yes or no"))
 		(format t "~%~%~%"))))
 (quit)
-
-
-
-
