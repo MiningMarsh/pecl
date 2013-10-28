@@ -21,12 +21,11 @@
 						  (format nil "~a-~a" sind eind))))
 				  probs)
 				 ",")))
+
 (defun get-valid-problems ()
   (map0-n
-   (lambda (n) (handler-case
-				   (with-open-file (f (format nil "~a/main.lisp" n))
-					 t)
-				 (file-error (e) nil))) 1000))
+   (lambda (n) (file-exists (format nil "~a/main.lisp" n)))
+   1000))
 
 (setf *input-command* 'yes)
 (setf *inputs*

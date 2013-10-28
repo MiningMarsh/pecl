@@ -344,3 +344,8 @@
 														  acc)))))))
 	(rec 0 1 (car xs) (cdr xs) nil)))
 
+(defun file-exists (filename)
+  (handler-case
+	  (with-open-file (f filename)
+		t)
+	(file-error (e) (progn e nil))))
