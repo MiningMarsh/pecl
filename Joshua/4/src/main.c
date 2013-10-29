@@ -1,26 +1,35 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 
 bool isPalindrome(int Target) {
-	char String[7]; // Ugly hack to improve performance for this test.
-	int Last = sprintf(String, "%i", Target);
-	if(--Last < 0) {
-		fputs("Error testing for palindromeinity.\n",stderr);
-		exit(1);
+	int Size = 1;
+	int Thing = 9;
+	while(Thing < Target) {
+		++Size;
+		Thing = Thing*10 + 9;
 	}
-	for(int Index = 0; Index <= Last/2; ++Index)
-		if(String[Index] != String[Last-Index])
+	int Base1 = 1;
+	int Base2 = pow(10, Size-1);
+	while(Base2 > Base1) {
+		if((Target/Base2)%10 != (Target/Base1)%10) {
 			return false;
+		}
+		Base2 /= 10;
+		Base1 *=10;
+	}
 	return true;
 }
 
 int main() {
 	int Max = 0;
-	for(int I = 999; I > 99; --I) {
+	int Lower = 100; 
+	for(int I = 999; I >= Lower; --I) {
 		for(int J = 999; J > 99; --J) {
 			if(isPalindrome(I*J) && (I*J > Max)) {
 				Max = I*J;
+				Lower = sqrt(Max);
 			}
 		}
 	}
