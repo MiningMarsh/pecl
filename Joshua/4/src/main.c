@@ -4,22 +4,16 @@
 #include <math.h>
 
 bool isPalindrome(int Target) {
-	int Size = 1;
-	int Thing = 9;
-	while(Thing < Target) {
-		++Size;
+	int Thing = 9;	
+	int Base = 1;
+	int Result = 0;
+	for(int I = 1; Thing < Target; I++) {
+		Result = Result*10 + (Target/Base)%10;
+		Base *= 10;
 		Thing = Thing*10 + 9;
 	}
-	int Base1 = 1;
-	int Base2 = pow(10, Size-1);
-	while(Base2 > Base1) {
-		if((Target/Base2)%10 != (Target/Base1)%10) {
-			return false;
-		}
-		Base2 /= 10;
-		Base1 *=10;
-	}
-	return true;
+	Result = Result*10 + (Target/Base)%10;
+	return Result == Target;
 }
 
 int main() {
