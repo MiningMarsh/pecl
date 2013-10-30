@@ -15,10 +15,10 @@
   (let ((probs (remove-if-not #'car (section-encode xs))))
 	(string-join (mapcar
 				  (lambda (section)
-					(var-bind (sind eind) (cdr section)
-					  (if (zerop (- eind sind))
-						  (format nil "~a" sind)
-						  (format nil "~a-~a" sind eind))))
+					(var-bind (start-ind end-ind) (cdr section)
+					  (if (zerop (- end-ind start-ind))
+						  (format nil "~a" start-ind)
+						  (format nil "~a-~a" start-ind end-ind))))
 				  probs)
 				 ",")))
 

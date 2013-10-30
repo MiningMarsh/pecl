@@ -1,4 +1,5 @@
 (require 'sb-bsd-sockets)
+
 (defmacro while (test &body body)
   `(do ()
 	   ((not ,test))
@@ -47,8 +48,7 @@
 	   (mapc #'(lambda ,params ,@body) 
 			 ,@(map0-n
 				#'(lambda (n) `(nthcdr ,n ,src))
-				(1- (length params)))
-			 nil))))
+				(1- (length params)))))))
 
 (defmacro do-tuples/c (params source &body body)
   `(do-tuples/o ,params (cycle-list
