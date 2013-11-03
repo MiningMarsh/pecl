@@ -349,3 +349,6 @@
 	  (with-open-file (f filename)
 		t)
 	(file-error (e) (progn e nil))))
+
+(defun in-range (x min max)
+  (and (>= x min) (<= x max)))
