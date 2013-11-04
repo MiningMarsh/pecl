@@ -67,3 +67,6 @@
 							   "Please select yes or no"))
 		(format t "~%~%~%"))))
 (quit)
+
+(do-tuples/o (x y) '(1 2 3)
+		   (format t "~a~%" (list x y)))

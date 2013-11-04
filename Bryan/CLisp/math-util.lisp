@@ -148,3 +148,29 @@
             (/ start 2)
             (+ 1 (* 3 start)))
         start))
+
+(defun factorial (n)
+  (labels
+	  ((rec (x n)
+		 (if (= n 0)
+			 x
+			 (rec (* x n) (1- n)))))
+	(rec 1 n)))
+			 
+(defun reduce-two-rows (xs ys)
+  (mapcar
+   (lambda (x y1 y2)
+	 (if (>= (+ x y1) (+ x y2))
+		 (+ x y1)
+		 (+ x y2)))
+   xs ys (cdr ys)))
+
+(defun reduce-step (triangle)
+  (cons
+   (reduce-two-rows (cadr triangle) (car triangle))
+   (cddr triangle)))
+
+(defun reduce-triangle (triangle)
+  (if (= (length triangle) 1)
+	  (caar triangle)
+	  (reduce-triangle (reduce-step triangle))))

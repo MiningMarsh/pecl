@@ -331,6 +331,8 @@
 										  xs
 										  (repeat str (length xs))))))))
 
+
+
 (defun section-encode (xs &optional (equality #'equal))
   (labels
 	  ((rec (index runlength p xs acc)
@@ -352,3 +354,8 @@
 
 (defun in-range (x min max)
   (and (>= x min) (<= x max)))
+
+(defun char-to-number (x)
+  (if (in-range (char-code x) 48 57)
+	  (- (char-code x) 48)
+	  (error 'bad-character-error :text "Oops, your character was not a digit")))
