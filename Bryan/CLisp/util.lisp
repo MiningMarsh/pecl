@@ -359,3 +359,12 @@
   (if (in-range (char-code x) 48 57)
 	  (- (char-code x) 48)
 	  (error 'bad-character-error :text "Oops, your character was not a digit")))
+
+(defun slurp-stream (stream)
+  (let ((seq (make-string (file-length stream))))
+    (read-sequence seq stream)
+    seq))
+
+(defun slurp-file (filename)
+  (with-open-file (stream filename)
+	(slurp-stream stream)))
