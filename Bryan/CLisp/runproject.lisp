@@ -38,35 +38,35 @@
 
 (defvar *valid-string* (pretty-problem-join (get-valid-problems)))
 (format t "Welcome to the project euler project manager!~%")
-(while (cadr (assoc *input-command* *inputs*))
-  (setf *project-description* "")
-  (format t "Valid selections: ~a: " *valid-string*)
-  (finish-output)
-  (setf *input* (read))
-  (if (integerp *input*)
-	  (progn
-		(handler-case
-			(progn
-			  (load (compile-file (concatenate 'string (format nil "~a" *input*) "/" "main.lisp")
-								  :verbose nil
-								  :print nil))
-			  (let ((-sep (string-multiply "-" 32)) (=sep (string-multiply "=" 32)))
-				(format t "~%~%~a~%PROJECT DESCRIPTION~%~a~%~a~%" -sep -sep  *project-description*)
-				(format t "~a~%RUNNING PROGRAM~%~a~%~%" -sep -sep)
-				(setf *start-time* (get-nanoseconds-of-day))
-				(setf *result* (main))
-				(setf *end-time* (get-nanoseconds-of-day))
-				(format t "~a~%~%~a~%" *result* =sep)
-				(format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
-				(format t "~a~%" =sep)))
-		  (file-error (e) (format t "~a"
-								  "That project doesn't exist.")))
-		(format t "~%Would you like to repeat? [y/n] ")
-		(setf *input-command* (get-valid-input-from-list
-							   *inputs*
-							   "Please select yes or no"))
-		(format t "~%~%~%"))))
-(quit)
+(defun main-loop ()
+  (while (cadr (assoc *input-command* *inputs*))
+	(setf *project-description* "")
+	(format t "Valid selections: ~a: " *valid-string*)
+	(finish-output)
+	(setf *input* (read))
+	(if (integerp *input*)
+		(progn
+		  (handler-case
+			  (progn
+				(load (compile-file (concatenate 'string (format nil "~a" *input*) "/" "main.lisp")
+									:verbose nil
+									:print nil))
+				(let ((-sep (string-multiply "-" 32)) (=sep (string-multiply "=" 32)))
+				  (format t "~%~%~a~%PROJECT DESCRIPTION~%~a~%~a~%" -sep -sep  *project-description*)
+				  (format t "~a~%RUNNING PROGRAM~%~a~%~%" -sep -sep)
+				  (setf *start-time* (get-nanoseconds-of-day))
+				  (setf *result* (main))
+				  (setf *end-time* (get-nanoseconds-of-day))
+				  (format t "~a~%~%~a~%" *result* =sep)
+				  (format t "Elapsed time: ~a ms~%" (/ (- *end-time* *start-time*) (expt 10.0 6)))
+				  (format t "~a~%" =sep)))
+			(file-error (e) (format t "~a"
+									"That project doesn't exist.")))
+		  (format t "~%Would you like to repeat? [y/n] ")
+		  (setf *input-command* (get-valid-input-from-list
+								 *inputs*
+								 "Please select yes or no"))
+		  (format t "~%~%~%"))))
+  (quit))
+(main-loop)
 
-(do-tuples/o (x y) '(1 2 3)
-		   (format t "~a~%" (list x y)))
