@@ -38,9 +38,9 @@ int main(int ArgCount, char** Arguments) {
 			continue;
 		}
 		for(int I = 0; I < 4; I++) {
-			Digits[I] = Digits[I] + 1;
+			Digits[I] = Digits[I + 1];
 		}
-		Digits[5] = char2num(Next);
+		Digits[4] = char2num(Next);
 		int New = 1;
 		for(int I = 0; I < 5; I++) {
 			New *= Digits[I];
