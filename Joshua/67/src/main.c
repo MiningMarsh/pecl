@@ -132,7 +132,7 @@ triangle* triangle_read(char* Filename) {
 		// Read in the row.
 		for(unsigned int Cell = 0; Cell < Row; Cell++) {
 			int Next;
-			fscanf(File, "%i", &Next);
+			fscanf(File, "%d", &Next);
 			Triangle->Rows[Row-1][Cell] = Next;
 		}
 	}
