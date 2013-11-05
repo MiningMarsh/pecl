@@ -25,12 +25,18 @@ years to check them all. There is an efficient algorithm to solve
 it. ;o)")
 
 (defun parse-triangle-string (triangle-string)
-  (rmapcar
-   #'parse-integer
-   (remove-if (lambda (xs) (string= (car xs) ""))
-			  (mapcar
-			   (lambda (s) (split-string s #\space))
-			   (split-string triangle-string #\newline)))))
+  (nreverse
+   (rmapcar
+	#'parse-integer
+	(remove-if (lambda (xs) (string= (car xs) ""))
+			   (mapcar
+				(lambda (s) (split-string s #\space))
+				(split-string triangle-string #\newline))))))
 
 (defun main ()
-  (reduce-triangle (nreverse (parse-triangle-string (slurp-file "67/triangle.txt")))))
+  (-> "67/triangle.txt"
+	  slurp-file
+	  parse-triangle-string
+	  reduce-triangle))
+
+
