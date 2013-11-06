@@ -196,9 +196,9 @@
 	socket))
 
 (declaim #+sbcl(sb-ext:muffle-conditions style-warning))
-(defun get-nanoseconds-of-day ()
-  (multiple-value-bind (_ seconds nanoseconds __ ___) (sb-unix:unix-gettimeofday)
-	(+ (* seconds (expt 10 9)) nanoseconds)))
+(defun get-microseconds-of-day ()
+  (multiple-value-bind (_ seconds microseconds __ ___) (sb-unix:unix-gettimeofday)
+	(+ (* seconds (expt 10 6)) microseconds)))
 (declaim #+sbcl(sb-ext:unmuffle-conditions style-warning))
 
 (defun tcp-server (port &key (backlog 5) (interface "localhost"))

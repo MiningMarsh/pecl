@@ -16,6 +16,7 @@ Find the product abc.
 
 (defun crawler (max)
   (labels ((rec (a b)
+			 (declare (integer a) (integer b))
 			 (cond 
 			   ((is-triple a b)
 				(let ((val (+ (ihypot a b) a b)))
