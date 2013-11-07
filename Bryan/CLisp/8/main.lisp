@@ -25,8 +25,8 @@ Find the greatest product of five consecutive digits in the 1000-digit number.
 71636269561882670428252483600823257530420752963450
 ")
 (defun prod-chrs (st)
-  (string-reduce
-   (lambda (acc s) (* acc (parse-integer s))) st 1))
+  (reduce
+   (lambda (acc s) (* acc (char-to-number s))) st :initial-value 1))
 
 (defun max-prod-sub (n st)
   (labels ((rec (st mx ln)
