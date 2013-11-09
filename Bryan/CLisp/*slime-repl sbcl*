@@ -1,284 +1,55 @@
-; SLIME 2013-04-02
-CL-USER> (load "util.lisp")
+CL-USER> (calculate-name-score "CHARLIE")
+; compiling (DEFUN ZIP-WITH-INDICIES ...)56
+CL-USER> (ZIP-WITH-INDICIES '(1 2 3))
 
-; file: /home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/util.lisp
-; in: DEFUN CYCLE-LIST
-;     (MAP0-N #'(LAMBDA (N) (PUSH (NTH N XS) ACC)) (1- N))
-; 
-; caught STYLE-WARNING:
-;   undefined function: MAP0-N
-; 
-; compilation unit finished
-;   Undefined function:
-;     MAP0-N
-;   caught 1 STYLE-WARNING condition
-
-; in: DEFMACRO DO-TUPLES/O
-;     (MAP0-N #'(LAMBDA (N) `(NTHCDR ,N ,SRC)) (1- (LENGTH PARAMS)))
-; 
-; caught STYLE-WARNING:
-;   undefined function: MAP0-N
-; 
-; compilation unit finished
-;   Undefined function:
-;     MAP0-N
-;   caught 1 STYLE-WARNING condition
-T
-CL-USER> (mapcar #'char-to-number "123")
-; Evaluation aborted on #<TYPE-ERROR expected-type: LIST datum: "123">.
-CL-USER> (map 'string #'char-to-number "123")
-; Evaluation aborted on #<TYPE-ERROR expected-type: CHARACTER datum: 1>.
-CL-USER> (map 'list #'char-to-number "123")
-; compiling (DEFUN PROD-CHRS ...)(1 2 3)
-CL-USER> (PROD-CHRS "123")
-
-6
-CL-USER> (max '(1 2 3))
-; Evaluation aborted on #<TYPE-ERROR expected-type: NUMBER datum: (1 2 3)>.
-CL-USER> (mostn #'id '(1 2 3))
-(3)
-3
-CL-USER> (map 'list char-to-number "1234567890")
-; Evaluation aborted on #<UNBOUND-VARIABLE CHAR-TO-NUMBER {100637CB13}>.
-CL-USER> (map 'list #'char-to-number "1234567890")
-(1 2 3 4 5 6 7 8 9 0)
-CL-USER> (map 'list #'char-to-number "1234567890")
-(1 2 3 4 5 6 7 8 9 0)
-CL-USER> (mapcar #'* (map 'list #'char-to-number "1234567890")
-				 )
-(1 2 3 4 5 6 7 8 9 0)
-CL-USER> (map 'list #'char-to-number "1234567890")
-(1 2 3 4 5 6 7 8 9 0)
-CL-USER> (let ((l (map 'list #'char-to-number "1234567890")))
-		   (apply #'mapcar (cons #'* (map0-n (lambda (n) (nth-cdr n l)) 4))))
-
-; in: LET ((L (MAP 'LIST #'CHAR-TO-NUMBER "1234567890")))
-;     (NTH-CDR N L)
-; 
-; caught STYLE-WARNING:
-;   undefined function: NTH-CDR
-; 
-; compilation unit finished
-;   Undefined function:
-;     NTH-CDR
-;   caught 1 STYLE-WARNING condition
-; Evaluation aborted on #<UNDEFINED-FUNCTION NTH-CDR {10068273D3}>.
-CL-USER> (let ((l (map 'list #'char-to-number "1234567890")))
-		   (apply #'mapcar (cons #'* (map0-n (lambda (n) (nthcdr n l)) 4))))
-(120 720 2520 6720 15120 0)
-CL-USER> (mostn #'id (let ((l (map 'list #'char-to-number "1234567890")))
-		   (apply #'mapcar (cons #'* (map0-n (lambda (n) (nthcdr n l)) 4)))))
-; compiling (DEFUN MAX-PROD-SUB ...)
-; compiling (DEFUN MAIN ...)(15120)
-15120
-CL-USER> (main)
-
-; compiling (DEFUN MAX-PROD-SUB ...)(40824)
-40824
-CL-USER> (main)
-
-; compiling (DEFUN MAX-PROD-SUB ...)
-; compiling (DEFUN MAX-PROD-SUB ...)40824
-CL-USER> (main)
-
-40824
-CL-USER> (factors 9)
-
-; in: FACTORS 9
-;     (FACTORS 9)
-; 
-; caught STYLE-WARNING:
-;   undefined function: FACTORS
-; 
-; compilation unit finished
-;   Undefined function:
-;     FACTORS
-;   caught 1 STYLE-WARNING condition
-; Evaluation aborted on #<UNDEFINED-FUNCTION FACTORS {1004DBD7A3}>.
-CL-USER> (load "util.lisp")
-T
-CL-USER> (factors 9)
-; Evaluation aborted on #<UNDEFINED-FUNCTION FACTORS {10068EB0C3}>.
-CL-USER> (load "math-util.lisp")
-
-
-; file: /home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/math-util.lisp
-; in: DEFUN PRIMEP
-;     (DIVISIBLE N C)
-; 
-; caught STYLE-WARNING:
-;   undefined function: DIVISIBLE
-; 
-; compilation unit finished
-;   Undefined function:
-;     DIVISIBLE
-;   caught 1 STYLE-WARNING condition
-STYLE-WARNING: redefining COMMON-LISP-USER::PRIMEP in DEFUN
-
-; in: DEFUN PI-1
-;     (W-1 (/ -1.0d0 N))
-; 
-; caught STYLE-WARNING:
-;   undefined function: W-1
-; 
-; compilation unit finished
-;   Undefined function:
-;     W-1
-;   caught 1 STYLE-WARNING condition
-
-; in: DEFUN N-PRIMES
-;     (PRIMES<N (PI-1 N))
-; 
-; caught STYLE-WARNING:
-;   undefined function: PRIMES<N
-; 
-; compilation unit finished
-;   Undefined function:
-;     PRIMES<N
-;   caught 1 STYLE-WARNING condition
-T
-CL-USER> (factors 12)
-(2 6 1 12)
-CL-USER> (factors 9)
-; compiling (DEFUN FACTORS ...)
-
-; file: /tmp/fileKY189T
-; in: DEFUN FACTORS
-;     (= N UPP)
-; 
-; caught WARNING:
-;   undefined variable: UPP
-; 
-; compilation unit finished
-;   Undefined variable:
-;     UPP
-;   caught 1 WARNING condition
-(1 9)
-CL-USER> (factors 9)
-; compiling (DEFUN FACTORS ...); Evaluation aborted on #<UNBOUND-VARIABLE UPP {1006950D73}>.
-CL-USER> (factors 9)
-
-; compiling (DEFUN PROPER-DIVISORS ...)(3 1 9)
-CL-USER> (proper-divisors 12)
-
-; compiling (DEFUN AMICABLEP-HASHED ...)
-
-; file: /tmp/filecTCk1B
-; in: DEFUN AMICABLEP-HASHED
-;     (GETHASH (APPLY #'+ (PROPER-DIVISORS N)) HASH :DEFAULT NIL)
-; 
-; caught WARNING:
-;   The function was called with four arguments, but wants at most three.
-; 
-; compilation unit finished
-;   caught 1 WARNING condition
-; compiling (DEFUN AMICABLEP-HASHED ...)
-; compiling (DEFUN STORE-DIVISORS ...)
-; compiling (DEFUN STORE-DIVISORS ...)(3 4 2 6 1)
-CL-USER> (STORE-DIVISORS 284 (make-hash))
-
-; in: STORE-DIVISORS 284
-;     (MAKE-HASH)
-; 
-; caught STYLE-WARNING:
-;   undefined function: MAKE-HASH
-; 
-; compilation unit finished
-;   Undefined function:
-;     MAKE-HASH
-;   caught 1 STYLE-WARNING condition
-; Evaluation aborted on #<UNDEFINED-FUNCTION MAKE-HASH {10044751D3}>.
-CL-USER> (STORE-DIVISORS 284 (make-hash-table))
-; compiling (DEFUN STORE-DIVISORS ...)(0 1 1 3 1 6 1 7 4 8 1 16 1 10 9 15 1 21 1 22 11 14 1 36 6 16 13 28 1 42 1 31
- 15 20 13 55 1 22 17 50 1 54 1 40 33 26 1 76 8 43 21 46 1 66 17 64 23 32 1 108
- 1 34 41 63 19 78 1 58 27 74 1 123 1 40 49 64 19 90 1 106 40 44 1 140 23 46 33
- 92 1 144 21 76 35 50 25 156 1 73 57 117 1 114 1 106 87 56 1 172 1 106 41 136 1
- 126 29 94 65 62 25 240 12 64 45 100 31 186 1 127 47 122 1 204 27 70 105 134 1
- 150 1 196 51 74 25 259 35 76 81 118 1 222 1 148 81 134 37 236 1 82 57 218 31
- 201 1 130 123 86 1 312 14 154 89 136 1 186 73 196 63 92 1 366 1 154 65 176 43
- 198 29 148 131 170 1 316 1 100 141 203 1 270 1 265 71 104 37 300 47 106 105
- 226 31 366 1 166 75 110 49 384 39 112 77 284 31 234 1 280 178 116 1 332 1 202
- 153 218 1 312 53 184 83 194 1 504 1 157 121 190 97 258 33 232 87 218 1 476 35
- 130 177 255 1 270 45 328 129 134 1 456 59 214 93 208 1 450 1 286 175 140 97
- 396 1 142 137 440 1 294 1 220)
-CL-USER> (STORE-DIVISORS 284 (make-hash-table))
-
-#<HASH-TABLE :TEST EQL :COUNT 284 {100466AA83}>
-CL-USER> (amicablep-hashed 284 (STORE-DIVISORS 284 (make-hash-table)))
-T
-CL-USER> (amicablep-hashed 283 (STORE-DIVISORS 284 (make-hash-table)))
-
-; compiling file "/home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/21/main.lisp" (written 08 NOV 2013 09:43:07 PM):
-
-; /home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/21/main.fasl written
-; compilation finished in 0:00:00.005
-; compiling file "/home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/math-util.lisp" (written 08 NOV 2013 09:31:16 PM):
-; compiling (LOAD (COMPILE-FILE "util.lisp" ...))
-; compiling (DEFUN FIB-LIST ...)
-; compiling (DEFUN PRIMEP ...)
-; compiling (DECLAIM (INLINE DIVISIBLE))
-; compiling (DEFUN DIVISIBLE ...)
-; compiling (DEFUN PRIME-FACTORS ...)
-; compiling (DEFUN FACTORS ...)
-; compiling (DEFUN PROPER-DIVISORS ...)
-; compiling (DEFUN PI-1 ...)
-; compiling (DEFUN N-PRIMES ...)
-; compiling (DECLAIM (INLINE SQUARE))
-; compiling (DEFUN SQUARE ...)
-; compiling (DEFUN W ...)
-; compiling (DEFUN W-1 ...)
-; compiling (DEFUN PERFECT-SQUAREP ...)
-; compiling (DEFUN HYPOT ...)
-; compiling (DEFUN IHYPOT ...)
-; compiling (DEFUN PRIMES<N ...)
-
-; file: /home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/math-util.lisp
-; in: DEFUN PRIMES<N
-;     (RANGE 2 (1+ N))
-; 
-; note: doing signed word to integer coercion (cost 20)
-
-; compiling (DEFUN TRIANGLE-NUMBERS ...)
-; compiling (DEFUN COLLATZ ...)
-; compiling (DEFUN FACTORIAL ...)
-; compiling (DEFUN REDUCE-TWO-ROWS ...)
-; compiling (DEFUN REDUCE-STEP ...)
-; compiling (DEFUN REDUCE-TRIANGLE ...); 
-                                       ; compilation unit finished
-                                       ;   printed 1 note
-
-; /home/jsvlrt/Programming/Projects/project-euler/Bryan/CLisp/math-util.fasl written
-; compilation finished in 0:00:00.083
-STYLE-WARNING: redefining COMMON-LISP-USER::PRIMEP in DEFUN
-STYLE-WARNING: redefining COMMON-LISP-USER::PRIMEP in DEFUN
+; compiling (DEFUN MAIN ...)
 STYLE-WARNING: redefining COMMON-LISP-USER::MAIN in DEFUN
-NIL
+
+; file: /tmp/file83VPzM
+; in: DEFUN MAIN
+;     (SUM '(1 2 3))
+; 
+; caught STYLE-WARNING:
+;   undefined function: SUM
+; 
+; compilation unit finished
+;   Undefined function:
+;     SUM
+;   caught 1 STYLE-WARNING condition
+; compiling (DEFUN MAIN ...)((1 1) (2 2) (3 3))
 CL-USER> (main)
-; compiling (DEFUN AMICABLEP-HASHED ...)
-; compiling (DEFUN STORE-DIVISORS ...)
-; compiling (DEFUN MAIN ...); Evaluation aborted on #<SIMPLE-TYPE-ERROR expected-type: NUMBER datum: NIL>.
+
+; compiling (DEFUN SUM ...)
+; compiling (DEFUN MAIN ...)
+
+; file: /tmp/file6i05Id
+; in: DEFUN MAIN
+;     (CALCULATE-NAME-SCORES (GET-SORTED-NAMES))
+; 
+; caught STYLE-WARNING:
+;   undefined function: CALCULATE-NAME-SCORES
+
+;     (GET-SORTED-NAMES)
+; 
+; caught STYLE-WARNING:
+;   undefined function: GET-SORTED-NAMES
+; 
+; compilation unit finished
+;   Undefined functions:
+;     CALCULATE-NAME-SCORES GET-SORTED-NAMES
+;   caught 2 STYLE-WARNING conditions
+; compiling (DEFUN CALCULATE-NAME-SCORES ...)6
 CL-USER> (main)
 
-; compiling (DEFUN STORE-DIVISORS ...); Evaluation aborted on #<SIMPLE-TYPE-ERROR expected-type: NUMBER datum: NIL>.
-CL-USER> (store-divisors 10000 (make-hash-table)))
-; Evaluation aborted on #<SB-INT:SIMPLE-READER-ERROR "unmatched close parenthesis" {100654BC83}>.
-CL-USER> (store-divisors 10000 (make-hash-table))
+; compiling (DEFUN GET-SORTED-NAMES ...); Evaluation aborted on #<UNDEFINED-FUNCTION GET-SORTED-NAMES {1003521AA3}>.
+CL-USER> (main)
 
-#<HASH-TABLE :TEST EQL :COUNT 9999 {100669A793}>
-CL-USER> (let ((l (store-divisors 10000 (make-hash-table))))
-		   l)
-#<HASH-TABLE :TEST EQL :COUNT 9999 {1006C09143}>
-CL-USER> (let ((l (store-divisors 10000 (make-hash-table))))
-		   (amicablep-hashed 2 l))
-; compiling (DEFUN AMICABLEP-HASHED ...); Evaluation aborted on #<SIMPLE-TYPE-ERROR expected-type: NUMBER datum: NIL>.
-CL-USER> (let ((l (store-divisors 10000 (make-hash-table :test #'=))))
-		   (amicablep-hashed 2 l))
+; compiling (DEFUN PRODUCT ...)
+; compiling (DEFUN MAIN ...)13655402
+CL-USER> (main)
 
-; compiling (DEFUN MAIN ...); Evaluation aborted on #<SIMPLE-TYPE-ERROR expected-type: NUMBER datum: NIL>.
-CL-USER> (let ((l (store-divisors 10000 (make-hash-table :test #'=))))
-		   (amicablep-hashed 2 l))
-; Evaluation aborted on #<SIMPLE-ERROR "Unknown :TEST for MAKE-HASH-TABLE: ~S" {1004931D53}>.
-CL-USER> (let ((l (store-divisors 10000 (make-hash-table))))
-		   (amicablep-hashed 2 l))
-; Evaluation aborted on #<SIMPLE-ERROR "Unknown :TEST for MAKE-HASH-TABLE: ~S" {1004AB8883}>.
-CL-USER> 
+871198282
+CL-USER> (sum (sort (range 1 1000000) #'<))
+Control stack guard page temporarily disabled: proceed with caution
+; Evaluation aborted on #<SB-KERNEL::CONTROL-STACK-EXHAUSTED {10061C3E33}>.
+CL-USER> (sum (stable-sort (range 1 1000000) #'<))

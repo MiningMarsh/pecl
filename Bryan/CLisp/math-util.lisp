@@ -179,3 +179,9 @@
   (if (= (length triangle) 1)
 	  (caar triangle)
 	  (reduce-triangle (reduce-step triangle))))
+
+(defun sum (xs)
+  (reduce #'+ xs))
+
+(defun product (xs)
+  (reduce #'* xs))

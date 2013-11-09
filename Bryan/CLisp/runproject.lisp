@@ -25,7 +25,7 @@
 (defun get-valid-problems ()
   (map0-n
    (lambda (n) (file-exists (format nil "~a/main.lisp" n)))
-   1000))
+   600))
 
 (setf *input-command* 'yes)
 (setf *inputs*
