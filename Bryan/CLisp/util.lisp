@@ -105,6 +105,18 @@
 				  (funcall fn xs)
 				  (rmapcar fn xs))) xss))
 
+(defun rreduce (fn xss initial-value)
+  (labels
+	  ((rec (acc xss)
+		 (if (null xss)
+			 acc
+			 (let ((head (car xss)) (tail (cdr xss)))
+			   (if (atom head)
+				   (rec (funcall fn acc head) tail)
+				   (rec (rec acc head) tail))))))
+	(rec initial-value xss)))
+
+
 (defun range (x y &optional (step 1))
   "Generates a range with an optional step parameter. It is non-inclusive."
   (if (> (abs (- y (+ step x))) (abs (- y x)))
@@ -147,7 +159,7 @@
 		(t (primep x (+ p 1)))))
 
 (defun flatten (xs)
-  (apply #'append xs))
+  (reverse (rreduce (lambda (acc x) (cons x acc)) xs nil)))
 
 (defun relative-path (&rest xs)
   (make-pathname :directory `(:relative ,@xs)))
