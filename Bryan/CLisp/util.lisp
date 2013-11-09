@@ -19,6 +19,7 @@
 		 (setq ,var ,next-value))
 	   (nreverse (cons ,var ,acc)))))
 
+
 (defmacro -> (expr &rest xs)
   (cond 
 	((null xs)

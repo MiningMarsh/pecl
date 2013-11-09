@@ -31,14 +31,19 @@
 	(rec x (sqrt x) 2 nil)))
 
 (defun factors (x)
-  (let ((upb (isqrt x)))
+  (let ((upb (sqrt x)))
 	(labels ((rec (n acc)
-			   (if (>= n upb)
+			   (if (> n upb)
 				   acc
 				   (if (divisible x n)
-					   (rec (1+ n) (cons n (cons (/ x n) acc)))
+					   (if (= n upb)
+						   (rec (1+ n) (cons n acc))
+						   (rec (1+ n) (cons n (cons (/ x n) acc))))
 					   (rec (1+ n) acc)))))
 	  (rec 1 nil))))
+
+(defun proper-divisors (n)
+  (remove n (factors n)))
 
 (defun pi-1 (n)
   (declare (fixnum n))
@@ -141,13 +146,13 @@
 				 (nreverse acc)
 				 (rec (1+ x) (cons (+ x (car acc)) acc)))))
 	(rec 2 (list 1))))
-				 
+
 (defun collatz (start)
   (collect-list (= start 1)
-        (if (evenp start)
-            (/ start 2)
-            (+ 1 (* 3 start)))
-        start))
+				(if (evenp start)
+					(/ start 2)
+					(+ 1 (* 3 start)))
+				start))
 
 (defun factorial (n)
   (labels
@@ -156,7 +161,7 @@
 			 x
 			 (rec (* x n) (1- n)))))
 	(rec 1 n)))
-			 
+
 (defun reduce-two-rows (xs ys)
   (mapcar
    (lambda (x y1 y2)
