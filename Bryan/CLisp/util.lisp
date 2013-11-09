@@ -381,3 +381,7 @@
 (defun slurp-file (filename)
   (with-open-file (stream filename)
 	(slurp-stream stream)))
+
+(defun list-to-array (xs)
+	(make-array `(,(length xs))
+              :initial-contents xs))
