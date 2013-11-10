@@ -13,5 +13,18 @@ Find the sum of all the positive integers which cannot be written as the sum of 
   (< n (sum (proper-divisors n))))
 
 
+(defun crawler (m)
+  (let* ((a (list-to-array (remove-if-not #'abundantp (range 2 (1+ m))))) (b (array-dimension a 0)))
+	(labels
+		((rec (i j hash)
+		   (cond
+			 ((>= j b) (rec (1+ i) 0 hash))
+			 ((>= i b) (crawler-phase-2 hash m))
+			 (t (rec i (1+ j) (progn (setf (gethash (+ (aref a i) (aref a j)) hash) t) hash))))))
+	  (rec 0 0 (make-hash-table)))))
+
+(defun crawler-phase-2 (hash m)
+  (reduce (lambda (acc m) (if (not (gethash m hash)) (+ acc m) acc)) (range 1 (1+ m))))
+
 (defun main ()
-  )
+  (crawler 28123))
