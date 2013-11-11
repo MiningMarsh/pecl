@@ -16,9 +16,9 @@
 	(string-join (mapcar
 				  (lambda (section)
 					(var-bind (start-ind end-ind) (cdr section)
-							  (if (zerop (- end-ind start-ind))
-								  (format nil "~a" start-ind)
-								  (format nil "~a-~a" start-ind end-ind))))
+					  (if (zerop (- end-ind start-ind))
+						  (format nil "~a" start-ind)
+						  (format nil "~a-~a" start-ind end-ind))))
 				  probs)
 				 ",")))
 
@@ -42,10 +42,11 @@
 (defun main-loop (&optional (argv nil))
   (while (cadr (assoc *input-command* *inputs*))
 	(setf *project-description* "")
-	(format t "Valid selections: ~a: " *valid-string*)
-	(finish-output)
 	(if (null argv)
-		(setf *input* (read))
+		(progn
+		  (format t "Valid selections: ~a: " *valid-string*)
+		  (finish-output)
+		  (setf *input* (read)))
 		(progn
 		  (setf *input* (read-from-string (car argv)))
 		  (setf argv (cdr argv))))
