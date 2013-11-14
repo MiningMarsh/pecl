@@ -383,5 +383,29 @@
 	(slurp-stream stream)))
 
 (defun list-to-array (xs)
-	(make-array `(,(length xs))
+  (make-array `(,(length xs))
               :initial-contents xs))
+
+(defun string-fill (str n &key (format 'left) (fill-string " "))
+  (if (or (eql format 'left) (eql format 'right))
+	  (let*
+		  ((rem (- n (length str)))
+		   (l (length fill-string)))
+		(if (<= rem 0)
+			str
+			(let ((s (make-string (* l (ceiling (/ rem l))))))
+			  (labels
+				  ((rec (i)
+					 (if (>= i rem)
+						 (if (eql format 'left)
+							 (concatenate 'string (subseq s 0 rem) str)
+							 (concatenate 'string str (subseq s 0 rem)))
+						 (progn
+						   (setf (subseq s i (+ i l)) fill-string)
+						   (rec (+ i l))))))
+				(rec 0)))))
+	  (error "Expected 'LEFT or 'RIGHT to format")))
+
+
+
+

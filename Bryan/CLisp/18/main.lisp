@@ -29,6 +29,18 @@ problem by trying every route. However, Problem 67, is the same challenge
  with a triangle containing one-hundred rows; it cannot be solved by brute 
 force, and requires a clever method! ;o)")
 
+(defun gen-test-triangle (max-row-length)
+  (string-join
+   (mapcar
+	(lambda (xs) (string-join xs " "))
+	(rmapcar
+	 (lambda (s) (string-fill s 2 :fill-string "0"))
+	 (rmapcar
+	  #'write-to-string
+	  (map0-n
+	   (lambda (n) (map0-n (lambda (m) m (random 100)) n))
+	   max-row-length))))
+   (newline)))
 
 
 (defvar *triangle*)

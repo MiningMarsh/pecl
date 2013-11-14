@@ -17,10 +17,6 @@
 	  ((< n 2) nil)
 	  (t (rec n 3 (isqrt n))))))		
 
-(declaim (inline divisible))
-(defun divisible (n x)
-  (declare (integer n) (integer x))
-  (zerop (rem n x)))
 
 (defun prime-factors (x)
   (labels ((rec (x upb i acc)
@@ -185,3 +181,15 @@
 
 (defun product (xs)
   (reduce #'* xs))
+
+(defun divisible (x xs &rest xss)
+  (if (atom xs)
+      (divisible x (cons xs xss))
+      (labels
+          ((rec (xs)
+             (if (null xs)
+                 nil
+                 (if (zerop (rem x (car xs)))
+                     t
+                     (rec (cdr xs))))))
+        (rec xs))))

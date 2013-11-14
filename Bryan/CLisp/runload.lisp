@@ -10,6 +10,7 @@
 (defvar *start-time*)
 (defvar *end-time*)
 (defvar *result*)
+(defvar *valid-string*)
 
 (defun pretty-problem-join (xs)
   (let ((probs (remove-if-not #'car (section-encode xs))))
@@ -27,7 +28,7 @@
    (lambda (n) (file-exists (format nil "~a/main.lisp" n)))
    600))
 
-(setf *input-command* 'yes)
+
 (setf *inputs*
 	  (list '(yes t)
 			'(y t)
@@ -35,11 +36,11 @@
 			'(no nil)))
 
 
-(defvar *valid-string*)
-(setf *valid-string* (pretty-problem-join (get-valid-problems)))
 
-(format t "Welcome to the project euler project manager!~%")
 (defun main-loop (&optional (argv nil))
+  (setf *valid-string* (pretty-problem-join (get-valid-problems)))
+  (format t "Welcome to the project euler project manager!~%")
+  (setf *input-command* 'yes)
   (while (cadr (assoc *input-command* *inputs*))
 	(setf *project-description* "")
 	(if (null argv)
