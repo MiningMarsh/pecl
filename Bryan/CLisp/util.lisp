@@ -121,7 +121,7 @@
   "Generates a range with an optional step parameter. It is non-inclusive."
   (if (> (abs (- y (+ step x))) (abs (- y x)))
 	  nil
-	  (nbutlast (collect-list (= x y) (+ x step) x))))
+	  (nbutlast (collect-list (>= (abs x) (abs y)) (+ x step) x))))
 
 
 (defun id (x)  x)

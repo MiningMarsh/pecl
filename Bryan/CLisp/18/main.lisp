@@ -1,4 +1,4 @@
-(if (not (boundp *running-from-runner*))
+(if (not (boundp '*running-from-runner*))
 	(load (compile-file "math-util.lisp")))
 (setq *project-description* "By starting at the top of the triangle 
 below and moving to adjacent numbers on the row below, the maximum

@@ -51,3 +51,6 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 (defun fast-fib (n)
   (nth (- 1 (rem n 2)) (2x2-matrix-expt '(1 1 1 2) (ceiling (/ n 2)))))
+
+
+

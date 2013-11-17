@@ -26,6 +26,38 @@
 			   (t (rec x upb (1+ i) acc)))))
 	(rec x (sqrt x) 2 nil)))
 
+
+(defun fast-divisible (x xs)
+  (declare (values boolean) ((unsigned-byte 32) x) (list xs) (optimize (speed 3) (safety 0)))
+  (let ((u (isqrt x)))
+	(declare ((unsigned-byte 32) u) (optimize (speed 3) (safety 0)))
+	(if (null xs)
+		nil
+		(labels
+			((rec (xs)
+			   (let ((h (car xs)))
+				 (declare ((unsigned-byte 30) h))
+				 (if (or (> h u) (null xs))
+					 nil
+					 (if (zerop (rem x h))
+						 t
+						 (rec (cdr xs)))))))
+		  (rec xs)))))
+
+(defun fast-sieve (n)
+  (declare (values list) (fixnum n) (optimize (speed 3) (safety 0) (debug 0)))
+  (labels
+	  ((rec (pq nums)
+		 (declare (values list) (queue pq) (list nums) (optimize (speed 3) (safety 0) (debug 0)))
+		 (if (null nums)
+			 (queue-first pq)
+			 (if (fast-divisible (car nums) (queue-first pq))
+				 (rec pq (cdr nums))
+				 (rec (enqueue pq (car nums)) (cdr nums))))))
+	(rec (make-queue) (cons 2 (range 3 n 2)))))
+
+
+
 (defun factors (x)
   (let ((upb (sqrt x)))
 	(labels ((rec (n acc)
@@ -48,10 +80,10 @@
 	x))
 
 (defun n-primes (n)
-  (declare (fixnum n) (optimize (speed 3)))
+  (declare (fixnum n) (optimize (speed 3) (safety 0)))
   (if (< n 15)
 	  (take n '(2 3 5 7 11 13 17 19 23 29 31 37 41 47))
-	  (let ((pl (primes<n (pi-1 n))))
+	  (let ((pl (fast-sieve (pi-1 n))))
 		(take n pl))))
 
 (declaim (inline square))
@@ -123,17 +155,7 @@
   (isqrt (+ (square a) (square b))))
 
 (defun primes<n (n)
-  (declare (fixnum n)(optimize (speed 3) (safety 0)))
-  (let ((upb (isqrt n)))
-	(declare (fixnum upb))
-	(labels ((rec (p xs acc)
-			   (declare (fixnum p) (list xs) (list acc))
-			   (if (> p  upb)
-				   (nconc (nreverse acc) xs)
-				   (let ((nl (delete-if (lambda (x) (divisible x p)) xs)))
-					 (declare (list nl))
-					 (rec (car nl) nl (cons p acc))))))
-	  (rec 2 (range 2 (1+ n)) nil))))
+  (fast-sieve n))
 
 
 (defun triangle-numbers (n)
@@ -193,3 +215,4 @@
                      t
                      (rec (cdr xs))))))
         (rec xs))))
+
