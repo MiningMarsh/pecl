@@ -373,14 +373,25 @@
 	  (- (char-code x) 48)
 	  (error 'bad-character-error :text "Oops, your character was not a digit")))
 
-(defun slurp-stream (stream)
+(defun slurp-file-stream (stream)
   (let ((seq (make-string (file-length stream))))
     (read-sequence seq stream)
     seq))
 
+(defun slurp-stream (stream)
+  (with-output-to-string (out)
+    (let ((seq (make-array 1024 :element-type 'character
+						   :adjustable t
+						   :fill-pointer 1024)))
+      (loop
+		 (setf (fill-pointer seq) (read-sequence seq stream))
+		 (when (zerop (fill-pointer seq))
+		   (return))
+		 (write-sequence seq out)))))
+
 (defun slurp-file (filename)
   (with-open-file (stream filename)
-	(slurp-stream stream)))
+	(slurp-file-stream stream)))
 
 (defun list-to-array (xs)
   (make-array `(,(length xs))
@@ -408,4 +419,63 @@
 
 
 
+
+(defun get-level (x levels)
+  (cond
+	((integerp x)  nil)
+	((assoc x levels) (cadr (assoc x levels)))
+	((fboundp x) 3)
+	(t nil)))
+
+(defmacro with-rec ((name &rest params) &body body)
+  (var-bind (parm-list parm-value) (unzip params)
+	`(labels
+		 ((,name ,parm-list
+			,@body))
+	   (,name ,@parm-value))))
+
+(defun parse-once (expr levels sub-tree &optional (priority 0))
+  (if expr
+	  (let ((h (car expr)))
+		(if (get-level h levels)
+			(if (< (get-level h levels) priority)
+				(values sub-tree expr)
+				(multiple-value-bind (ptree nexpr)
+					(parse-once (cddr expr) levels (cadr expr) (get-level h levels))
+				  (values (list h sub-tree ptree) nexpr)))
+			(parse-once (cdr expr) levels h)))
+	  (values sub-tree expr)))
+
+(defun math-parse (expr levels)
+  (let ((exp (mapcar (lambda (x) (if (atom x) x (math-parse x levels))) expr)))
+	(with-rec (rec
+			   (tree (car exp))
+			   (expr (cdr exp)))
+	  (if (null expr)
+		  tree
+		  (multiple-value-bind (sub-tree expr) (parse-once expr levels tree)
+			(rec sub-tree expr))))))
+
+(defmacro pme (&rest expr)
+  (math-parse expr '((expt 3) (* 2) (/ 2) (+ 1) (- 1))))
+
+(defun to-bf-symbols (stream subchar arg)
+  (let ((ostr (make-array 0 :element-type 'character
+						  :adjustable t
+						  :fill-pointer t)))
+	(with-output-to-string (out ostr)
+	  (with-rec (rec (chr nil))
+		(if chr
+			(if (eql chr #\))
+				out
+				(if (not (eql chr #\())
+					(rec (progn (write-char chr out) (read-char stream)))
+					(rec (read-char stream))))
+			(rec (read-char stream)))))
+	ostr))
+
+
+(set-dispatch-macro-character
+ #\# #\b
+ #'to-bf-symbols)
 
