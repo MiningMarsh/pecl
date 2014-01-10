@@ -1,4 +1,5 @@
 (load (compile-file "util.lisp" :verbose nil :print nil))
+
 (defun fib-list (x &optional (acc (list 1 0)))
   (cond ((= x 0) '())
         ((= x 1)  (nreverse (cdr acc)))
@@ -57,6 +58,19 @@
 	(rec (make-queue) (cons 2 (range 3 n 2)))))
 
 
+(defun n-primes (n)
+  (declare (values list) ((unsigned-byte 32) n) (optimize (speed 3) (safety 0) (debug 0)))
+  (labels
+	  ((rec (pq m count)
+		 (declare (values list)  (queue pq) ((unsigned-byte 32) m)
+				  ((unsigned-byte 32) count) (optimize (speed 3) (safety 0) (debug 0)))
+		 (if (= count n)
+			 (queue-first pq)
+			 (if (fast-divisible m (queue-first pq))
+				 (rec pq (+ 2 m) count)
+				 (rec (enqueue pq m) (+ 2 m) (1+ count))))))
+	(rec (enqueue (make-queue) 2) 3 1)))
+
 
 (defun factors (x)
   (let ((upb (sqrt x)))
@@ -78,13 +92,6 @@
   (let ((x (round (exp (- (w-1 (/ -1.0d0 n)))))))
 	(declare (fixnum x))
 	x))
-
-(defun n-primes (n)
-  (declare (fixnum n) (optimize (speed 3) (safety 0)))
-  (if (< n 15)
-	  (take n '(2 3 5 7 11 13 17 19 23 29 31 37 41 47))
-	  (let ((pl (fast-sieve (pi-1 n))))
-		(take n pl))))
 
 (declaim (inline square))
 (defun square (n)

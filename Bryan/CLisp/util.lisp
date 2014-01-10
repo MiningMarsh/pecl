@@ -459,23 +459,4 @@
 (defmacro pme (&rest expr)
   (math-parse expr '((expt 3) (* 2) (/ 2) (+ 1) (- 1))))
 
-(defun to-bf-symbols (stream subchar arg)
-  (let ((ostr (make-array 0 :element-type 'character
-						  :adjustable t
-						  :fill-pointer t)))
-	(with-output-to-string (out ostr)
-	  (with-rec (rec (chr nil))
-		(if chr
-			(if (eql chr #\))
-				out
-				(if (not (eql chr #\())
-					(rec (progn (write-char chr out) (read-char stream)))
-					(rec (read-char stream))))
-			(rec (read-char stream)))))
-	ostr))
-
-
-(set-dispatch-macro-character
- #\# #\b
- #'to-bf-symbols)
 
