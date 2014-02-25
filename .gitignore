@@ -11,3 +11,4 @@ out
 *.stamp
 */build/*
 *.fasl
+*/.build/*
