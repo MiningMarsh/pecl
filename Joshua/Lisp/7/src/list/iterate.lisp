@@ -1,13 +1,13 @@
 (defun iterate (lvalue ivalues &key 
                 (until #'identity until-provided-p) 
                 (while #'identity while-provided-p)
-				(last-value nil)
-				(times 0 times-provided-p))
+                (last-value nil)
+                (times 0 times-provided-p))
                 (declare (type function lvalue)
-						 (type list ivalues)
-						 (type function until)
-						 (type function while)
-						 (type fixnum times))
+                         (type list ivalues)
+                         (type function until)
+                         (type function while)
+                         (type fixnum times))
 "Iterate compiles a list or a value from taking a function and executing
 it continually in the fibonnaci style."
 	(labels ((internal (acc acclast iter)
