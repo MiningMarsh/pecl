@@ -14,7 +14,7 @@ it continually in the fibonnaci style."
 	                   (declare (type list acc)
 	                            (type list acclast)
 	                            (type fixnum iter))
-		(let ((value (apply lvalue acclast)))
+		(let ((value (apply lvalue (cdr acclast))))
 			(if (if (or 
 						while-provided-p 
 						until-provided-p 
@@ -35,7 +35,7 @@ it continually in the fibonnaci style."
 					(cdr (nconc acclast (list value)))
 					(1+ iter))
 				(if last-value (car (nlast acclast)) (cdr acc))))))
-		(let ((acc (copy-list ivalues)))
+		(let ((acc (append (list t) ivalues)))
 			(internal 
 				acc
 				acc
