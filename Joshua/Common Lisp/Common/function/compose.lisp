@@ -3,13 +3,5 @@
 	      (rest (cdr funcs)))
 	(if rest
 		(let ((composed (apply (the function #'compose) rest)))
-			(lambda (&rest args)
-				(funcall
-					(the function func) 
-					(car (funcall 
-						(the function composed) 
-						args)))))
-		(lambda (&rest args) 
-			(apply 
-				(the function func)
-				args)))))
+			[funcall funcfunc (car (funcall composed %&))])
+		[apply func %&])))

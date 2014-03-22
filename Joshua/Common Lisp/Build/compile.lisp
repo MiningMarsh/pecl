@@ -1,6 +1,11 @@
 (proclaim '(optimize speed))
 
 (labels ((compile-f (file)
+		(format t "LOAD ~A~%" (enough-namestring file))
+	 	(load (compile-file file :output-file ".build/" :verbose nil :print nil))))
+	(mapcar #'compile-f (directory "macros/**/*.lisp")))
+
+(labels ((compile-f (file)
 		(format t "COMPILE ~A~%" (enough-namestring file))
 	 	(load (compile-file file :output-file ".build/" :verbose nil :print nil))))
 	(mapcar #'compile-f (directory "src/**/*.lisp")))
