@@ -4,6 +4,6 @@
 			(lambda (x) 
 				(mapcar 
 					(lambda (y)
-						(list x y (funcall (the function func) x y))) 
+						(funcall (the function func) x y))
 				list2)) 
 		list1)))
