@@ -11,11 +11,11 @@
 	(mapcar #'compile-f (directory "src/**/*.lisp")))
 
 #+clisp (defun compile_entry_point () 
-	(apply #'main *ARGS*) 
+	(time (apply #'main *ARGS*) )
 	(exit))
 
 #+sbcl  (defun compile_entry_point () 
-	(apply #'main (cdr *posix-argv*)))
+	(time (apply #'main (cdr *posix-argv*))))
 
 (compile 'compile_entry_point)
 
