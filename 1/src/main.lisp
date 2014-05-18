@@ -1,10 +1,9 @@
 (defun main (&rest args)
 	(declare (ignore args))
-	(format t "~A~%"
-		(reduce-range
-			[if (or (= 0 (mod %2 5)) (= 0(mod %2 3)))
-				(+ %2 %1)
-				%1]
-			1
-			1000
-			:initial-value 0)))
+	(reduce-range
+		[if (or (= 0 (mod %2 5)) (= 0(mod %2 3)))
+			(+ %2 %1)
+			%1]
+		1
+		1000
+		:initial-value 0))
