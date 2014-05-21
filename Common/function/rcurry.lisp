@@ -1,3 +1,4 @@
-(defun rcurry (func &rest arguments)
-	"Returns function with arguments curried to it. Never calls function."
-	(curry func (reverse arguments)))
+(defun rcurry (func &rest args)
+"Returns function with arguments curried to the end of it. Never calls 
+function."
+	[apply (the function func) (append %& args)])

@@ -1,2 +1,3 @@
 (defun mul (list)
-	(reduce #'* list))
+"Multiple every element of a list together."
+	(apply #'* list))

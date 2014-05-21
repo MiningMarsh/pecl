@@ -1,4 +1,5 @@
 (defun-memoized fib (nth)
-	(if (< nth 3)
-		1
-		(+ (fib (- nth 1)) (fib (- nth 2)))))
+	(cond
+		((< nth 1) 0)
+		((< nth 3) 1)
+		(t (+ (fib (- nth 1)) (fib (- nth 2))))))

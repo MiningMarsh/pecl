@@ -4,12 +4,12 @@ point x."
 	; This delta was hand tweaked to provide accurate results
 	(let*
 			((delta 0.001)
-			(df (lambda (x) 
-				(/ 
-					(- 
-						(funcall f (+ x delta)) 
-						(funcall f x)) 
-					delta))))
+			(df
+				[->
+					f
+					(funcall (+ _ delta))
+					(- (funcall f _))
+					(/ delta)]))
 		(if x-defined-p
 			(funcall df x)
 			df)))

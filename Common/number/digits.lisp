@@ -1,4 +1,5 @@
 (defun digits (num)
+"Return a list of the digits that make up num."
 	(labels ((internal (acc num)
 		(if (= 0 num)
 			acc

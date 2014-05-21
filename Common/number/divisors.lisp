@@ -1,4 +1,5 @@
 (defun divisors (n)
+"Returns a list of the divisors of n."
 	(let ((max (floor (sqrt n))))
 		(labels
 				((internal (low high current)

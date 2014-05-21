@@ -1,3 +1,3 @@
 (defun main (&rest args)
             (declare (ignore args))
-	(-> 600851475143 prime-factors last car))
+	(list-from-iterator (iterator-from-range 100)))
