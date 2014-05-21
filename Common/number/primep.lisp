@@ -7,5 +7,5 @@
 			(reduce 
 				[and %1 %2]
 				(mapcar 
-					[= 0 (mod num _)]
-					(range 2 (sqrt num)))))))
+					[= 0 (mod n _)]
+					(range 2 (sqrt n)))))))
