@@ -10,8 +10,8 @@ clean:
 clisp:
 	@find -O3 src -type l -exec rm "{}" ';'
 	@find -O3 macros -type l -exec rm "{}" ';'
-	@find -O3 ../Common -type f -exec ln -s "../{}" src ';'
-	@find -O3 ../MCommon -type f -exec ln -s "../{}" macros ';'
+	@find -O3 ../Common -type f -name "*.lisp" -exec ln -s "../{}" src ';'
+	@find -O3 ../MCommon -type f -name "*.lisp" -exec ln -s "../{}" macros ';'
 	@mkdir -p build
 	@mkdir -p .build
 	@clisp compile.lisp
@@ -21,8 +21,8 @@ clisp:
 sbcl:
 	@find -O3 src -type l -exec rm "{}" ';'
 	@find -O3 macros -type l -exec rm "{}" ';'
-	@find -O3 ../Common -type f -exec ln -s "../{}" src ';'
-	@find -O3 ../MCommon -type f -exec ln -s "../{}" macros ';'
+	@find -O3 ../Common -type f -name "*.lisp" -exec ln -s "../{}" src ';'
+	@find -O3 ../MCommon -type f -name "*.lisp" -exec ln -s "../{}" macros ';'
 	@mkdir -p build
 	@find -P -O3 ../Common -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
 	@find -P -O3 ../MCommon -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
