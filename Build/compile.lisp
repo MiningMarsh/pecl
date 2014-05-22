@@ -11,6 +11,9 @@
 					:print nil))))
 	(mapcar 
 		#'compile-f 
+		(directory "../MCommon/**/*.lisp"))
+	(mapcar 
+		#'compile-f 
 		(directory "macros/**/*.lisp")))
 
 (labels 
@@ -22,6 +25,9 @@
 					:output-file ".build/" 
 					:verbose nil 
 					:print nil))))
+	(mapcar 
+		#'compile-f 
+		(directory "../Common/**/*.lisp"))
 	(mapcar 
 		#'compile-f 
 		(directory "src/**/*.lisp")))
