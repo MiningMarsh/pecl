@@ -1,6 +1,7 @@
 (defun triplet (n m)
 "Generates a pythagorean triple from given coprimes of different parity."
-	(list
-		(- (* m m) (* n n))
-		(* 2 m n)
-		(+ (* m m) (* n n))))
+	(let ((mm (* m m)) (nn (* n n)))
+		(list
+			(- mm nn)
+			(* 2 m n)
+			(+ mm nn))))
