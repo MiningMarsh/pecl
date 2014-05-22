@@ -28,18 +28,22 @@
 
 #+clisp (defun compile_entry_point ()
 	(time 
-		(mapcar
-			(lambda (x) (format t "~A~%" x))
-			(multiple-value-list 
-				(apply #'main *ARGS*))))
+		(progn
+			(mapcar
+				(lambda (x) (format t "~A~%" x))
+				(multiple-value-list 
+					(apply #'main *ARGS*))))
+		(format t "~%"))
 	(exit))
 
 #+sbcl  (defun compile_entry_point () 
 	(time 
-		(mapcar
-			(lambda (x) (format t "~A~%" x))
-			(multiple-value-list 
-				(apply #'main (cdr *posix-argv*))))))
+		(progn
+			(mapcar
+				(lambda (x) (format t "~A~%" x))
+				(multiple-value-list 
+					(apply #'main (cdr *posix-argv*))))
+		(format t "~%"))))
 
 (compile 'compile_entry_point)
 
