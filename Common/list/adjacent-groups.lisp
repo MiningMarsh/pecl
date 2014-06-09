@@ -1,4 +1,4 @@
-(adjacent-groups (list &optional (size nil size-provided-p))
+(defun adjacent-groups (list &optional (size nil size-provided-p))
 	(if (not size-provided-p)
 		(->>
 			(length list)
@@ -8,7 +8,7 @@
 			unnest)
 		(labels
 				((internal (n acc list)
-					(if (<= n size)
+					(if (< n size)
 						acc
 						(internal 
 							(- n 1) 
