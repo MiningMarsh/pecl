@@ -3,9 +3,9 @@
 	(let ((range (range 1 101)))
 		(-
 			(->
-			  range
-			  sum
-			  (expt 2))
+				range
+				sum
+				(expt 2))
 			(->>
 				range
 				(mapcar [expt _ 2])
