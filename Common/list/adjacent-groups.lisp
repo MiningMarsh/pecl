@@ -2,6 +2,7 @@
 	(if (not size-provided-p)
 		(->>
 			(length list)
+			1+
 			range
 			(mapcar [adjacent-groups list _])
 			unnest)
