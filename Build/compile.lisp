@@ -38,8 +38,8 @@
 			(mapcar
 				(lambda (x) (format t "~A~%" x))
 				(multiple-value-list 
-					(apply #'main *ARGS*))))
-		(format t "~%"))
+					(apply #'main *ARGS*)))
+			(format t "~%")))
 	(exit))
 
 #+sbcl  (defun compile_entry_point () 
