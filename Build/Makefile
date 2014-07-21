@@ -8,7 +8,7 @@ clean:
 clisp:
 	@mkdir -p build
 	@mkdir -p .build
-	@clisp compile.lisp
+	@clisp ../Build/compile.lisp
 
 sbcl:
 	@mkdir -p build
@@ -16,4 +16,4 @@ sbcl:
 	@find -P -O3 ../MCommon -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
 	@find -P -O3 src -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
 	@find -P -O3 macros -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
-	@sbcl --script compile.lisp
+	@sbcl --script ../Build/compile.lisp
