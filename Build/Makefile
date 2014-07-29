@@ -3,7 +3,7 @@ all:
 
 clean:
 	@mkdir -p build
-	@rm build/out
+	@rm -rf build
 
 clisp:
 	@mkdir -p build
@@ -12,6 +12,8 @@ clisp:
 
 sbcl:
 	@mkdir -p build
+	@mkdir -p macros
+	@mkdir -p src
 	@find -P -O3 ../Common -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
 	@find -P -O3 ../MCommon -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
 	@find -P -O3 src -type d -not -name ".build" -not -wholename "./build" -not -wholename "$PWD/build" -exec mkdir -p "{}/.build" ";"
