@@ -5,11 +5,11 @@ point x."
 	(let*
 			((delta 0.001)
 			(df
-				[->
+				~(->
 					f
 					(funcall (+ _ delta))
 					(- (funcall f _))
-					(/ delta)]))
+					(/ delta))))
 		(if x-defined-p
 			(funcall df x)
 			df)))

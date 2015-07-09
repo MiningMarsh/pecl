@@ -8,6 +8,6 @@
 				(expt 2))
 			(->>
 				range
-				(mapcar [expt _ 2])
+				(mapcar ~(expt _ 2))
 				sum))))
 

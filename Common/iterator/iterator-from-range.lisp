@@ -2,13 +2,13 @@
 	(let
 			((start
 				(if end-provided-p
-					start 
+					start
 					(if (< 0 start) 1 -1)))
 			(end
 				(if end-provided-p
 					end
 					start)))
-		(let 
+		(let
 				((step
 					(*
 						(if (< start end) 1 -1)
@@ -16,7 +16,7 @@
 							(abs step)
 							1))))
 			(let ((i start))
-				(lambda () 
+				(lambda ()
 					(if
 						(if (< start end)
 							(>= i end)

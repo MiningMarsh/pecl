@@ -1,6 +1,6 @@
 (defpackage "CLOJURE-LAMBDA"
 	(:documentation
-"Implements the #[] clojure macro syntax as a macro character on [. 
+"Implements the #[] clojure macro syntax as a macro character on =(.
 As well, _ becomes synonymous with clojure's %.")
 	(:use "COMMON-LISP")
 	(:shadow "REPLACE"))
@@ -10,7 +10,7 @@ As well, _ becomes synonymous with clojure's %.")
 (defun remove-non-symbols (code)
 "Removes all values from a list unless they are a symbol.
 (5 bar) -> bar"
-	(remove-if-not 
+	(remove-if-not
 		#'symbolp
 		code))
 
@@ -23,10 +23,10 @@ As well, _ becomes synonymous with clojure's %.")
 "Removes all symbols from a list that are not of the format '%' followed by a
 number.
 (''%1'' ''%2'' ''asd'' ''5'') -> (%1 %2)"
-	(remove-if-not 
+	(remove-if-not
 		(lambda (x)
-			(and 
-				(equal 
+			(and
+				(equal
 					"%"
 					(subseq x 0 1))
 				(numberp
@@ -38,7 +38,7 @@ number.
 "Extracts argument numbers from a properly formatted list of argument symbols.
 (''%1'' ''%2'' ''%3'') -> (1 2 3)"
 	(mapcar
-		(lambda (x) 
+		(lambda (x)
 			(read-from-string
 				(subseq x 1)))
 		code))
@@ -72,12 +72,12 @@ number.
 	(labels ((internal (count)
 			(if (= count 0)
 				nil
-				(append 
+				(append
 					(internal (- count 1))
 					(list
 						(read-from-string
-							(concatenate 'string 
-								"%" 
+							(concatenate 'string
+								"%"
 								(write-to-string count))))))))
 		(append (internal count) (list (read-from-string "&rest") (read-from-string "%&")))))
 
@@ -85,8 +85,8 @@ number.
 "Replace symbols in a list using an assoc-list map.
 ((3 . 4) (1 . 2)) (3 2 1) -> (4 2 2)"
 	(if (listp list)
-		(mapcar 
-			(lambda (x) 
+		(mapcar
+			(lambda (x)
 				(replace map x))
 			list)
 		(if map
@@ -98,46 +98,46 @@ number.
 (defun remap-args (list)
 "Remaps _ and % in a body of code to %1.
 (+ _ 1) -> (+ %1 1)"
-	(replace 
+	(replace
 		(list
-			(cons (read-from-string "_") (read-from-string "%1")) 
-			(cons (read-from-string "%") (read-from-string "%1"))) 
+			(cons (read-from-string "_") (read-from-string "%1"))
+			(cons (read-from-string "%") (read-from-string "%1")))
 		list))
 
 (defun remap-list (count)
-"Generates a remapping list for use with replace that replaces symbols of the 
+"Generates a remapping list for use with replace that replaces symbols of the
 form '%' and a number with '%_' and a number.
 2 -> ((%1 . %_1) (%2 . %_2) (%& . %_&))"
 	(labels ((internal (count)
 			(if (= count 0)
 				nil
-				(append 
+				(append
 					(internal (- count 1))
 					(list
 						(cons
 							(read-from-string
-								(concatenate 'string 
-									"%" 
+								(concatenate 'string
+									"%"
 									(write-to-string count)))
 							(read-from-string
-								(concatenate 'string 
-									"%_" 
+								(concatenate 'string
+									"%_"
 									(write-to-string count)))))))))
 		(append (internal count) (list (cons (read-from-string "%&") (read-from-string "%_&"))))))
 
-(defun handler (stream char)
-               (declare (ignore char))
+(defun handler (stream subchar arg)
+               (declare (ignore subchar arg))
 "Converts a clojure-lambda form into a lambda form.
 [+ _ 1] -> (lambda (%_1 &rest %_&) (+ %_1 1))"
-	(let* ((body (remap-args (read-delimited-list #\] stream)))
-		  (arg-count (arg-count body))
-		  (remap (remap-list arg-count))
-		  (arg-list (arg-list arg-count)))
-		(replace remap 
-			`(lambda 
+	(let* ((body (remap-args (read-delimited-list #\) stream)))
+	       (arg-count (arg-count body))
+	       (remap (remap-list arg-count))
+	       (arg-list (arg-list arg-count)))
+		(replace remap
+			`(lambda
 				,arg-list
 				,body))))
 
 ; Define the macro character.
-(set-macro-character #\[ #'handler)
-(set-macro-character #\] (get-macro-character #\)))
+(make-dispatch-macro-character #\~)
+(set-dispatch-macro-character #\~ #\( #'handler)

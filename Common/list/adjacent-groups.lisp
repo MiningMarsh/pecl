@@ -4,7 +4,7 @@
 			(length list)
 			1+
 			range
-			(mapcar [adjacent-groups list _])
+			(mapcar ~(adjacent-groups list _))
 			unnest)
 		(labels
 				((internal (n acc list)

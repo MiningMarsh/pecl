@@ -1,10 +1,5 @@
 (defmacro defun-memoized (name args &rest body)
-	(let 
-			((table (gensym))
-			(value (gensym))
-			(result (gensym))
-			(found (gensym))
-			(args-f (gensym)))
+	(with-gensyms (table value result found args-f)
 		`(let ((,table (make-hash-table :test 'equal)))
 			(defun ,name ,args
 				(let ((,args-f (list ,@args)))

@@ -1,5 +1,5 @@
 (defmacro recursive (args init &rest code)
-	`(labels 
-			((recurse ,args
+	`(labels
+			((recur ,args
 				,@code))
-		(recurse ,@init)))
+		(recur ,@init)))
