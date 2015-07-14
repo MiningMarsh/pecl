@@ -3,12 +3,12 @@
 possible combo of values where each value is from the list passed at its
 index."
 	; If any of the passed lists are nil, no combos can be made.
-	(if (contains nil lists)
+	(if (member nil lists)
 		; There are no combos, return an empty iterator.
 		(lambda () (values nil t))
 		; Otherwise, build the combos iterator.
 		(labels
-				; Shifts the set of lists down by one. Returns two values, the new 
+				; Shifts the set of lists down by one. Returns two values, the new
 				; lists, and whether we have hit the end.
 				((shift (lists base)
 					; If no lists have been passed, we are done shifting.

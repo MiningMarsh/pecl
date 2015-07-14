@@ -1,10 +1,10 @@
 (labels
 		((group-two-internal (acc cur rest)
 			(if (not rest)
-				(nreverse acc)
+				(values (nreverse acc) cur)
 				(if (not cur)
-					(group-two-internal acc (car rest) (cdr rest))
-					(group-two-internal (cons (list cur (car rest)) acc) nil (cdr rest)))))
+					(group-two-internal acc (list (car rest)) (cdr rest))
+					(group-two-internal (cons (list (car cur) (car rest)) acc) nil (cdr rest)))))
 		(group-two (list) (group-two-internal nil nil list)))
 	(defmacro letm (binds &body body)
 		`(let ,(group-two binds)
@@ -13,7 +13,10 @@
 		`(let* ,(group-two binds)
 			,@body))
 	(defmacro condm (&body conditions)
-		`(cond ,@(group-two conditions))))
+		(multiple-value-bind (groups optional) (group-two conditions)
+			(let1 groups (if optional (append groups (list (list 't (car optional)))) groups)
+				`(cond ,@groups)))))
+
 (verify-macro
 	(letm (x 1
 	       y 2
@@ -40,6 +43,15 @@
 	(condm
 		(= x 1) t
 		t       nil)
+
+	(cond
+		((= x 1) t)
+		(t nil)))
+
+(verify-macro
+	(condm
+		(= x 1) t
+		nil)
 
 	(cond
 		((= x 1) t)
