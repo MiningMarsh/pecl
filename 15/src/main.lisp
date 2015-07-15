@@ -17,5 +17,6 @@
 
 (defun main (&rest args)
 	(declare (ignore args))
-	(setf *n* 20)
-	(format t "~&The number of paths in a ~A*~A grid is: ~A" *n* *n* (paths *n*)))
+	(defvar *n* 20)
+	(format t "~&The number of paths in a ~A*~A grid is: ~A"
+		*n* *n* (paths *n*)))
