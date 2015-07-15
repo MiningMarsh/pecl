@@ -1,0 +1,41 @@
+EULER 15
+========
+
+Problem:
+How many paths are there through a n*n square grid?
+You are only allowed to go right and down, starting
+from the top left and ending at the bottom right.
+Answer for n=2: 6
+
+
+MATHEMATICALLY:
+
+Each grid is a directed acyclical graph (DAG), consisting of
+nodes with pointers right and down
+
+s = start node (0 0)   e = end node (n n)
+v = value of each node (number of paths from here to e)
+p = total number of paths through the grid from s to e
+
+p = v(0 0)    v(x y) = v(x+1 y) + v(x y+1)
+
+
+EXPLANATION OF THE OPTIMIZATION:
+
+The DAG described above has two diagonal lines of symmetry. Of
+interest is the one leading from s to e, as this gives rise to
+the following rule: 
+  =>  if x=y, v(x y) = 2 * v(x+1 y)
+This means the computer only has to follow one line of recursion.
+
+Another useful property of the graph is a succession of ratios appearing 
+on every line, which can best be described with the following equations:
+  =>  if x=y, v(x+1 y) = v(x+1 y+1) + v(x+2 y)
+  =>  v(x+2 y) = v(x+1 y+1) + [v(x+1 y+1) * [n-x-1 / n-x]]
+Again, only one line of recursion has to be pursued.
+
+(Draw the graph and label each node with its value to understand 
+these properties better.)
+
+Combining both optimizations changes the algorithm execution time 
+from exponential to approximately linear.
