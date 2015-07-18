@@ -1,0 +1,8 @@
+(defun collect (valuer step finished value)
+               (declare (type function valuer)
+                        (type function step)
+                        (type function finished))
+	(recursive (acc cur) (nil value)
+		(if (funcall finished cur)
+			(nreverse acc)
+			(recur (cons (funcall valuer cur) acc) (funcall step cur)))))
