@@ -1,4 +1,7 @@
-(defun adjacent-groups (list &optional (size nil size-provided-p))
+(defun adjacent-groups (list &optional (size 0 size-provided-p))
+                       (declare (type list list)
+                                (type fixnum size)
+                                (type boolean size-provided-p))
 	(if (not size-provided-p)
 		(->>
 			(length list)
@@ -6,12 +9,10 @@
 			range
 			(mapcar ~(adjacent-groups list _))
 			unnest)
-		(labels
-				((internal (n acc list)
-					(if (< n size)
-						acc
-						(internal 
-							(- n 1) 
-							(cons (take size list) acc) 
-							(cdr list)))))
-			(internal (length list) nil list))))
+		(recursive (n acc list) ((length list) nil list)
+			(if (< n size)
+				acc
+				(recur
+					(- n 1)
+					(cons (take size list) acc)
+					(cdr list))))))

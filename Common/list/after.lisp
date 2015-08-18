@@ -1,3 +1,5 @@
 (defun after (first second list &key (test #'eql))
+             (declare (type list list)
+                      (type function test))
 	(when-bind tail (before second first list :test test)
 		(member first tail :test test)))

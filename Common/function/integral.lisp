@@ -1,4 +1,7 @@
-(defun integral (f &optional (x nil x-defined-p))
+(defun integral (f &optional (x 0.0 x-defined-p))
+                (declare (type function f)
+                         (type float x)
+                         (type boolean x-defined-p))
 	(letm*
 			(delta (if (< x 0 ) -0.01 0.01)
 			ff

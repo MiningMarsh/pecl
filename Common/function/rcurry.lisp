@@ -1,4 +1,6 @@
 (defun rcurry (func &rest args)
-"Returns function with arguments curried to the end of it. Never calls 
+              (declare (type function func)
+                       (type list args))
+"Returns function with arguments curried to the end of it. Never calls
 function."
-	~(apply (the function func) (append %& args)))
+	~(apply func (append (the list %&) args)))

@@ -1,4 +1,5 @@
 (defun-memoized collatz (start)
+"Returns the collatz sequence starting at start."
 	(if (= start 1)
 		(list 1)
 		(cons
